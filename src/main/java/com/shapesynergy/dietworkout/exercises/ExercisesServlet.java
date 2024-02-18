@@ -1,19 +1,21 @@
 package com.shapesynergy.dietworkout.exercises;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ExercisesServlet {
-    private final ExerciseService exerciseService;
+    private final ExercisesService exerciseService;
 
-    @Autowired
-    public ExerciseController(ExerciseService exerciseService) {
+    public ExercisesServlet(ExercisesService exerciseService) {
         this.exerciseService = exerciseService;
     }
 
-    @GetMapping("/exercise")
-    public ResponseEntity<String> getExerciseData() {
-        String fact = exerciseService.getExerciseFact();
-        return ResponseEntity.ok(fact);
+    @GetMapping("/exercises")
+    public String getExerciseFact() throws JsonProcessingException {
+        return exerciseService.getExerciseName();
+
     }
 }
+

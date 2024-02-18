@@ -1,26 +1,62 @@
 package com.shapesynergy.dietworkout.exercises;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class ExercisesService {
-    @Value("${api.keyexercise}")
-    private static final String API_KEY;
-    public String getExerciseDetails() {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String URL = "https://api.api-ninjas.com/v1/exercises";
+    @Value("${api.keyExercises}")
+    private String apiKey;
+
+//API key need to be in header for the request
+    private HttpHeaders headerSetup() {
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("X-Api-Key", apiKey);
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            return headers;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch API key");
+        }
+
+    }
+    public String getExerciseName() throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> entity = new HttpEntity<>(headerSetup());
+        ResponseEntity<String> response =
+                restTemplate.
+                        exchange(URL + "?/muscle=chest", HttpMethod.GET, entity, String.class);
         try {
-            String apiUrl = "https://api.api-ninjas.com/v1/exercises?muscle=biceps";
-            RestTemplate restTemplate = new RestTemplate();
-            String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                JsonNode root = objectMapper.readTree(response.getBody());
+                StringBuilder exerciseNames = new StringBuilder();
+                int i = 0;
+                for (JsonNode exercise : root) {
+                    if (i == 2) {
+                        break;
+                    }
+                    String exerciseName = exercise.get("name").asText();
+                    exerciseNames.append(exerciseName).append("\n");
+                    i++;
+                }
 
-            String name = path("name").asText();
-            String description = path("description").asText();
-            String muscleGroup = path("muscle").asText();
-
-            return "Exercise Name: " + name + "\nDescription: " + description + "\nMuscle Group: " + muscleGroup;
+                return exerciseNames.toString();
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return "Błąd podczas pobierania danych z API.";
         }
+        return "Failed to fetch exercise name";
     }
+
+
 }
