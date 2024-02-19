@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Names</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Exercise Names</h1>
+<input type="text" id="searchInput" placeholder="Search for exercise...">
+<button id="searchButton">Search</button>
+<div id="exerciseNames"></div>
+<div id="muscleRadioButtons"></div>
+
+<script>
+    function createMuscleRadioButtons() {
+        var muscleOptions = [
+            "biceps",
+            "calves",
+            "chest",
+            "forearms",
+            "glutes",
+            "hamstrings",
+            "lats",
+            "lower_back",
+            "middle_back",
+            "neck",
+            "quadriceps",
+            "traps",
+            "triceps"]; // Define muscle options
+
+        var radioButtonsContainer = document.getElementById("muscleRadioButtons"); // Get container to append radio buttons
+
+        // Clear existing radio buttons if any
+        radioButtonsContainer.innerHTML = '';
+
+        // Loop through muscle options and create radio buttons
+        muscleOptions.forEach(function(muscle) {
+            var radioButton = document.createElement("input");
+            radioButton.setAttribute("type", "radio");
+            radioButton.setAttribute("name", "muscleOption");
+            radioButton.setAttribute("value", muscle);
+            radioButton.id = muscle; // Set id for the radio button
+            var label = document.createElement("label");
+            label.setAttribute("for", muscle);
+            label.textContent = muscle; // Set label text
+
+            // Append radio button and label to the container
+            radioButtonsContainer.appendChild(radioButton);
+            radioButtonsContainer.appendChild(label);
+            radioButtonsContainer.appendChild(document.createElement("br")); // Add line break
+        });
+    }
+
+    // Call the function to create radio buttons when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        createMuscleRadioButtons();
+    });
+
+    $(document).ready(function() {
+        // Function to fetch exercise names based on search query and muscle
+        function searchExerciseNames(exercise, muscle) {
+            $.ajax({
+                url: '/exercises/search',
+                type: 'GET',
+                dataType: 'html',
+                data: { exercise: exercise, muscle: muscle },
+                success: function(data) {
+                    $('#exerciseNames').html(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to fetch exercise names:', error);
+                    $('#exerciseNames').html('Failed to fetch exercise names');
+                }
+            });
+        }
+
+        // Event listener for search button click
+        $('#searchButton').click(function() {
+            var query = $('#searchInput').val();
+            var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
+            searchExerciseNames(query, muscle); // Pass both query and muscle to the search function
+        });
+    });
+</script>
+</body>
+</html>
