@@ -11,6 +11,8 @@
 <input type="text" id="searchInput" placeholder="Search for exercise...">
 <button id="searchButton">Search</button>
 <div id="exerciseNames"></div>
+<button id="previousPage" style="display: none;">Previous exercises</button>
+<button id="nextPage" style="display: none;">Next exercises</button>
 <div id="muscleRadioButtons"></div>
 
 <script>
@@ -58,16 +60,37 @@
         createMuscleRadioButtons();
     });
 
+    // Function that triggers the display of the pagination buttons
+    function triggerButton(page) {
+        if (page > 0) {
+            document.getElementById('previousPage').style.display = 'block';
+        } else {
+            document.getElementById('previousPage').style.display = 'none';
+        }
+
+        // Check if total number of exercises fetched is less than 10, if so, hide the "Next exercises" button
+        var totalExercises = $('#exerciseNames').children().length; // Count number of exercise elements
+        if (totalExercises < 10) {
+            document.getElementById('nextPage').style.display = 'none';
+        } else {
+            document.getElementById('nextPage').style.display = 'block';
+        }
+    }
+
     $(document).ready(function() {
-        // Function to fetch exercise names based on search query and muscle
-        function searchExerciseNames(exercise, muscle) {
+        // Function to fetch exercise names based on search query, muscle, and offset
+        function searchExerciseNames(exercise, muscle, offset) {
             $.ajax({
                 url: '/exercises/search',
                 type: 'GET',
                 dataType: 'html',
-                data: { exercise: exercise, muscle: muscle },
+                data: { exercise: exercise, muscle: muscle, offset: offset },
                 success: function(data) {
                     $('#exerciseNames').html(data);
+                    triggerButton(offset); // Call the function to display the pagination buttons
+                    // Update data-offset attribute for the next page button
+                    $('#nextPage').data('offset', offset);
+                    $('#previousPage').data('offset', offset);
                 },
                 error: function(xhr, status, error) {
                     console.error('Failed to fetch exercise names:', error);
@@ -80,7 +103,26 @@
         $('#searchButton').click(function() {
             var query = $('#searchInput').val();
             var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
-            searchExerciseNames(query, muscle); // Pass both query and muscle to the search function
+            var offset = 0; // Set offset to 0 when initiating a new search
+            searchExerciseNames(query, muscle, offset); // Pass both query, muscle, and offset to the search function
+        });
+
+        // Event listener for clicking on the previous page button
+        $('#previousPage').click(function() {
+            var query = $('#searchInput').val();
+            var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
+            var currentOffset = parseInt($('#previousPage').data('offset')); // Get the previous offset value
+            var offset = currentOffset - 10; // Check if currentOffset is NaN, if so, set it to 0
+            searchExerciseNames(query, muscle, offset);
+        });
+
+        // Event listener for clicking on the next page button
+        $('#nextPage').click(function() {
+            var query = $('#searchInput').val();
+            var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
+            var currentOffset = parseInt($('#nextPage').data('offset')); // Get the current offset value
+            var offset = isNaN(currentOffset) ? 0 : currentOffset + 10; // Check if currentOffset is NaN, if so, set it to 0
+            searchExerciseNames(query, muscle, offset);
         });
     });
 </script>

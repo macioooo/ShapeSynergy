@@ -16,7 +16,7 @@ public class ExercisesService {
     private final RestTemplate restTemplate;
     private final HttpHeaders headers;
     private final String URL = "https://api.api-ninjas.com/v1/exercises";
-    private final int LIMIT = 10; // Limit wyników do pobrania w jednym zapytaniu
+
 
     public ExercisesService(@Value("${api.keyExercises}") String apiKey) {
         this.restTemplate = new RestTemplate();
@@ -31,27 +31,26 @@ public class ExercisesService {
         return restTemplate.exchange(url_with_params, HttpMethod.GET, entity, String.class);
     }
 
-    public String searchForExercise(String muscle, String exercise) throws JsonProcessingException {
-        int offset = 0;
-        StringBuilder exercisesBuilder = new StringBuilder();
+    public String searchForExercise(String muscle, String exercise, int offset) throws JsonProcessingException {
 
-        while (true) {
-            ResponseEntity<String> response = fetchExercisesFromApi(muscle, exercise, offset);
-            if (response.getStatusCode() == HttpStatus.OK) {
-                JsonNode root = objectMapper.readTree(response.getBody());
-                if (root.size() == 0) {
-                    break; // Przerwanie pętli, gdy nie ma więcej wyników
-                }
-                for (JsonNode exerciseNode : root) {
-                    String exerciseName = exerciseNode.get("name").asText();
-                    exercisesBuilder.append(exerciseName).append("<br>");
-                }
-                offset += LIMIT; // Aktualizacja offsetu
-            } else {
-                return "Failed to fetch exercise names. Status: " + response.getStatusCode();
-            }
+        ResponseEntity<String> response = fetchExercisesFromApi(muscle, exercise, offset);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return displayExercises(response);
+        }
+        return "Failed to fetch exercise names. Status: " + response.getStatusCode();
+    }
+
+    private String displayExercises(ResponseEntity<String> response) throws JsonProcessingException {
+        StringBuilder exercisesBuilder = new StringBuilder();
+        JsonNode root = objectMapper.readTree(response.getBody());
+        int total = 0;
+        for (JsonNode exerciseNode : root) {
+            String exerciseName = exerciseNode.get("name").asText();
+            exercisesBuilder.append(exerciseName).append("<br>");
+            total++;
         }
 
         return exercisesBuilder.toString();
     }
 }
+
