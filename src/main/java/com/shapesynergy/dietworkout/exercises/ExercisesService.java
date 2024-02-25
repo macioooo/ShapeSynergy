@@ -46,7 +46,9 @@ public class ExercisesService {
         int total = 0;
         for (JsonNode exerciseNode : root) {
             String exerciseName = exerciseNode.get("name").asText();
-            exercisesBuilder.append(exerciseName).append("<br>");
+            exercisesBuilder.append("<label>");
+            exercisesBuilder.append("<input type=\"checkbox\" name=\"exercise\" value=\"").append(exerciseName).append("\">");
+            exercisesBuilder.append(exerciseName).append("</label><br>");
             total++;
         }
 
