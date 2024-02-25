@@ -41,18 +41,16 @@ public class ExercisesService {
     }
 
     private String displayExercises(ResponseEntity<String> response) throws JsonProcessingException {
-        StringBuilder exercisesBuilder = new StringBuilder();
+        //StringBuilder exercisesBuilder = new StringBuilder();
         JsonNode root = objectMapper.readTree(response.getBody());
         int total = 0;
+        String exerciseName = "";
         for (JsonNode exerciseNode : root) {
-            String exerciseName = exerciseNode.get("name").asText();
-            exercisesBuilder.append("<label>");
-            exercisesBuilder.append("<input type=\"checkbox\" name=\"exercise\" value=\"").append(exerciseName).append("\">");
-            exercisesBuilder.append(exerciseName).append("</label><br>");
+            exerciseName += exerciseNode.get("name").asText() + "\n";
             total++;
         }
 
-        return exercisesBuilder.toString();
+        return exerciseName;
     }
 }
 

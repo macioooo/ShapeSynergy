@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercise Names</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
 <h1>Exercise Names</h1>
@@ -76,8 +78,10 @@
             document.getElementById('nextPage').style.display = 'block';
         }
     }
-
+        // Function to fetch exercise names based on search query, muscle, and offset
     $(document).ready(function() {
+        var workoutPlan = []; // Array to store selected exercises
+
         // Function to fetch exercise names based on search query, muscle, and offset
         function searchExerciseNames(exercise, muscle, offset) {
             $.ajax({
@@ -86,7 +90,32 @@
                 dataType: 'html',
                 data: { exercise: exercise, muscle: muscle, offset: offset },
                 success: function(data) {
-                    $('#exerciseNames').html(data);
+                    $('#exerciseNames').empty();
+                    var exercises = data.split('\n');
+                    exercises.forEach(function(exercise, index) {
+                        var trimmedExercise = exercise.trim(); // Trim any leading or trailing spaces
+                        if (trimmedExercise) { // Check if the exercise name is not empty
+                            var buttonId = 'exercise' + index;
+                            var button = '<button id="' + buttonId + '" class="exerciseNotClicked">' + trimmedExercise + '</button>';
+                            var div = '<div>' + button + '</div>'; // Wrap each button in a div
+                            $('#exerciseNames').append(div); // Append button within div
+                            $('#' + buttonId).click(function() {
+                                var exerciseIndex = workoutPlan.indexOf(trimmedExercise);
+                                if (exerciseIndex === -1) {
+                                    // Exercise not in workout plan, add it
+                                    workoutPlan.push(trimmedExercise);
+                                    $(this).removeClass('exerciseNotClicked').addClass('exerciseClicked');
+                                    console.log('Added exercise to workout plan:', trimmedExercise);
+                                } else {
+                                    // Exercise already in workout plan, remove it
+                                    workoutPlan.splice(exerciseIndex, 1);
+                                    $(this).removeClass('exerciseClicked').addClass('exerciseNotClicked');
+                                    console.log('Removed exercise from workout plan:', trimmedExercise);
+                                }
+                                console.log('Current workout plan:', workoutPlan);
+                            });
+                        }
+                    });
                     triggerButton(offset); // Call the function to display the pagination buttons
                     // Update data-offset attribute for the next page button
                     $('#nextPage').data('offset', offset);

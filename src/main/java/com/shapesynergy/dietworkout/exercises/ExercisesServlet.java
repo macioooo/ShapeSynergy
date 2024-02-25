@@ -1,13 +1,12 @@
 package com.shapesynergy.dietworkout.exercises;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/exercises")
+@RequestMapping(value = "/exercises",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class ExercisesServlet {
     private final ExercisesService exerciseService;
 
