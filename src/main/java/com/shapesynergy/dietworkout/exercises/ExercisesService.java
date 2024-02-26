@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 @Service
@@ -16,13 +17,14 @@ public class ExercisesService {
     private final RestTemplate restTemplate;
     private final HttpHeaders headers;
     private final String URL = "https://api.api-ninjas.com/v1/exercises";
+    private ExerciseRepository exerciseRepository;
 
-
-    public ExercisesService(@Value("${api.keyExercises}") String apiKey) {
+    public ExercisesService(@Value("${api.keyExercises}") String apiKey, ExerciseRepository exerciseRepository) {
         this.restTemplate = new RestTemplate();
         this.headers = new HttpHeaders();
         this.headers.set("X-Api-Key", apiKey);
         this.headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        this.exerciseRepository = exerciseRepository;
     }
 
     private ResponseEntity<String> fetchExercisesFromApi(String muscle, String exercise, int offset) {
@@ -52,5 +54,15 @@ public class ExercisesService {
 
         return exerciseName;
     }
+
+    public String add(ArrayList<String> exerciseList) {
+        for (String exercise : exerciseList) {
+            Exercises newExercise = new Exercises(exercise);
+            exerciseRepository.save(newExercise);
+        }
+        return "Exercises saved";
+    }
+
+
 }
 

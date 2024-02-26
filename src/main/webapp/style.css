@@ -7,7 +7,7 @@
     padding: 12px 24px;
     border: 0;
     color: #fff;
-    background: #5F021F;
+    background: darkred;
     line-height: 1.15;
     font-size: 16px;
     :hover {
@@ -31,4 +31,19 @@
         transition: all .1s ease;
         box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
     }
+}
+.container {
+    display: flex;
+    align-items: flex-start; /* Align items to the start of the flex container */
+}
+
+.yourExercises {
+    flex: 0 0 auto; /* Do not grow or shrink, maintain initial size */
+    width: 250px;
+    padding: 30px;
+}
+
+.listOfExercises {
+    flex: 1; /* Take up remaining space */
+    padding: 30px;
 }
