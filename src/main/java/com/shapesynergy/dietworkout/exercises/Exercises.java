@@ -11,7 +11,7 @@
     public class Exercises {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+        private Integer id_exercise;
         private String exercise;
         Exercises(String exercise) {
             this.exercise = exercise;

@@ -1,6 +1,7 @@
 package com.shapesynergy.dietworkout.exercises;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +12,9 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping(value = "/exercises",
         produces = MediaType.APPLICATION_JSON_VALUE)
-public class ExercisesServlet {
+@AllArgsConstructor
+public class ExercisesController {
     private final ExercisesService exerciseService;
-
-    public ExercisesServlet(ExercisesService exerciseService) {
-        this.exerciseService = exerciseService;
-    }
 
     @GetMapping("/search")
     public String searchExercise(@RequestParam String muscle, @RequestParam String exercise, @RequestParam int offset) throws JsonProcessingException {
