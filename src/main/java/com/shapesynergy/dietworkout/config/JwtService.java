@@ -39,16 +39,32 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-//extracting claim from jwt token
+    public boolean isTokenValid(String jwtToken, UserDetails userDetails) {
+        final String email = extractEmail(jwtToken);
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
+    }
+
+    //check if token is expired
+    private boolean isTokenExpired(String jwtToken) {
+        return extractExpiration(jwtToken).before(new Date());
+    }
+
+    private Date extractExpiration(String jwtToken) {
+        return extractClaim(jwtToken, Claims::getExpiration);
+    }
+
+    //extracting claim from jwt token
     public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(jwtToken);
         return claimsResolver.apply(claims);
     }
+
     //extracting all claims from jwt token
     private Claims extractAllClaims(String jwtToken) {
         return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(jwtToken).getPayload();
     }
-//decode secret key
+
+    //decode secret key
     private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
