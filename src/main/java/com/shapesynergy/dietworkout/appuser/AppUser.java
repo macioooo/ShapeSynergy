@@ -14,17 +14,25 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "`user`")
-public class AppUser implements UserDetails {
+public class AppUser {
 
     @Id
     @GeneratedValue
     private Long id_user;
+    @Column(nullable = false)
     private String name;
+
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
-  //All needed for BMI calculation and diet plan
+    //All needed for BMI calculation and diet plan
     @Enumerated(EnumType.STRING)
     private AppUserGender appUserGender;
     private Integer height;
@@ -32,46 +40,31 @@ public class AppUser implements UserDetails {
     private Integer age;
     private Integer activityLevel;
     private Integer goal;
+    private Integer bmi;
 
-    //Spring Security
+    //Spring security
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
-    private Boolean locked = false;
-    private Boolean enabled = false;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(appUserRole.name()));
+    public AppUser(String name, String email, String password, AppUserGender appUserGender, Integer height, Float weight, Integer age, Integer activityLevel, Integer goal, Integer bmi, AppUserRole appUserRole) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.appUserGender = appUserGender;
+        this.height = height;
+        this.weight = weight;
+        this.age = age;
+        this.activityLevel = activityLevel;
+        this.goal = goal;
+        this.bmi = bmi;
+        this.appUserRole = appUserRole;
     }
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    //Constructor needed for registration
+    public AppUser(String name, String email, String password, AppUserRole appUserRole) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.appUserRole = appUserRole;
     }
 }
