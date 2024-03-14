@@ -1,5 +1,6 @@
 package com.shapesynergy.dietworkout.appuser.security;
 
+import com.shapesynergy.dietworkout.appuser.service.CustomSuccessHandler;
 import com.shapesynergy.dietworkout.appuser.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Autowired
+    CustomSuccessHandler customSuccessHandler;
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -30,9 +33,10 @@ public class SecurityConfig {
         
         http.csrf(c -> c.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/**").permitAll())
+                        .requestMatchers("/admin").hasAuthority("ADMIN")
+                        .requestMatchers("/user").hasAuthority("USER")
 
-                .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/").permitAll())
+                .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll())
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll());
         return http.build();
