@@ -25,7 +25,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //needed for h2 database
         http.headers().frameOptions().disable();
+        
         http.csrf(c -> c.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/**").permitAll())
