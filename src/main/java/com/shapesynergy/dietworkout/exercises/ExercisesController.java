@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ExercisesController {
     private final ExercisesService exerciseService;
 
+
     @GetMapping("/search")
     public String searchExercise(@RequestParam String muscle, @RequestParam String exercise, @RequestParam int offset) throws JsonProcessingException {
         return exerciseService.searchForExercise(muscle, exercise, offset);

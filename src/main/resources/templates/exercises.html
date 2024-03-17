@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercise Names</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/exercises.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -81,8 +81,8 @@
             exerciseText.classList.add('exerciseText');
             exerciseText.addEventListener('click', function () {
                 var index = workoutPlan.indexOf(exercise);
-                if (exerciselist !== -1) {
-                    workoutPlan.splice(exerciselist, 1);
+                if (index !== -1) {
+                    workoutPlan.splice(index, 1);
                     displayWorkoutPlan();
                 }
             });
@@ -130,7 +130,7 @@
                     exercises.forEach(function (exercise, index) {
                         var trimmedExercise = exercise.trim(); // Trim any leading or trailing spaces
                         if (trimmedExercise) { // Check if the exercise name is not empty
-                            var buttonId = 'exercise' + exerciselist;
+                            var buttonId = 'exercise' + index;
                             if (!workoutPlan.includes(trimmedExercise)) {
                                 var button = '<button id="' + buttonId + '" class="exerciseNotClicked">' + trimmedExercise + '</button>';
                             } else {

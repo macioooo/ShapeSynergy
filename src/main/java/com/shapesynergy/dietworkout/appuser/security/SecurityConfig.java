@@ -1,5 +1,6 @@
 package com.shapesynergy.dietworkout.appuser.security;
 
+import com.shapesynergy.dietworkout.appuser.AppUserRole;
 import com.shapesynergy.dietworkout.appuser.service.CustomSuccessHandler;
 import com.shapesynergy.dietworkout.appuser.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,11 @@ public class SecurityConfig {
         
         http.csrf(c -> c.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/admin").hasAuthority("ADMIN")
-                        .requestMatchers("/user").hasAuthority("USER"))
+
+
+                        .requestMatchers("/admin").hasAuthority(AppUserRole.ADMIN.name())
+                        .requestMatchers("/user").hasAuthority(AppUserRole.USER.name())
+                        .requestMatchers("/**").permitAll())
 
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll())
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
