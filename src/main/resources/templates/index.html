@@ -5,21 +5,35 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Shape Synergy</title>
-    <link rel="stylesheet" src="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
     <style>
         * {
-            box-sizing:border-box;
-            margin:0;
-            padding:0;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: "Poppins", sans-serif;
         }
 
         body {
-            background-image: url("../static/css/imgs/site-background.jpg");
+            background: rgba(154, 178, 212,0.6);
+        }
+
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .navbar {
-            background: black;
+            background: #9ab2d4;
             color: white;
             height: 80px;
             display: flex;
@@ -29,7 +43,9 @@
             position: sticky;
             top: 0;
             z-index: 999;
+            box-shadow: black 0px 0px 10px 0px;
         }
+
         .navbar_container {
             display: flex;
             justify-content: space-between;
@@ -40,65 +56,103 @@
             margin: 0 auto;
             max-width: 1300px;
         }
-        #shape_synergy_logo {
-            height: 100%;
-            width: auto;
-        }
+
         .navbar_menu {
             display: flex;
             align-items: center;
             list-style: none;
             text-align: center;
         }
+
         .navbar_item {
             height: 80px;
             display: flex;
             align-items: center;
         }
+
         .navbar_link {
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            height: 100%;
+            padding: 0.1rem 0.8rem;
+            height: 80%;
+            border: 2px solid white;
+            border-radius: 20px;
+
         }
+
+        .navbar_link:hover {
+            color: lightpink;
+            transition: all 0.3s ease;
+        }
+
         .navbar_list {
             display: flex;
         }
+
         .navbar_list .navbar_item:not(:last-child) {
             margin-right: 20px;
         }
-        .main_container {
-            position: absolute; /* Use absolute positioning */
-            top: 50%; /* Move the top edge to the middle of the viewport */
-            left: 50%; /* Move the left edge to the middle of the viewport */
-            transform: translate(-50%, -50%); /* Translate the container back by half its width and height */
-            opacity: 0.6;
-            background-color: grey;
-            width: 80%; /* Increase the width to accommodate the content */
-            max-width: 800px; /* Set a maximum width to prevent the container from becoming too wide */
-            padding: 50px; /* Increase padding to provide space for the content */
-            text-align: center;
-        }
-        .whats_on_site {
 
+        .main_container {
+            color: white;
+            position: relative;
+            z-index: 1;
+            opacity: 0.8;
+
+            width: 100%;
+            margin: 0 auto;
+            padding: 50px;
+            text-align: left;
+            top: 100px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            flex: 1;
+            padding-bottom: 20px;
+            border: 2px solid white; /* Add border */
+            background-color: rgba(0,0,0 ,0.5); /* Add background color */
+            border-radius: 10px; /* Add border radius */
+            margin: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: black 0px 0px 10px 0px;
+        }
+        .container:hover {
+            transform: scale(1.05); /* Scale up on hover */
+            border-color: lightpink;
+        }
+        .container h2 {
+
+            margin-bottom: 20px;
+        }
+
+        .whats_on_site {
             padding-top: 40px;
         }
+
         .whats_on_site ul {
             list-style: none;
         }
+
         .description {
             padding: 10px;
         }
-
+        #barbell {
+            width:10%;
+            -webkit-filter: invert(100%); /* Safari/Chrome */
+            filter: invert(100%);
+        }
     </style>
 </head>
 <body>
 <nav class="navbar">
     <div class="navbar_container">
-        <a href="/" ><img id="shape_synergy_logo" src="../static/css/imgs/shapesynergy-logo.png"></a>
+        <div class="logo">Shape Synergy</div>
         <div class="navbar_toggle" id="mobile">
             <span class="bar"></span>
             <span class="bar"></span>
@@ -113,38 +167,42 @@
                     <a href="/registration" class="navbar_link">Register</a>
                 </li>
                 <li class="navbar_item">
-                <a href="/contact" class="navbar_link">Contact</a>
+                    <a href="/contact" class="navbar_link">Contact</a>
                 </li>
             </ul>
-    </div>
+        </div>
     </div>
 </nav>
-    <div class = "main_container">
-        <div class="main_text">
-            <h1>Shape Synergy</h1>
-            <p>Shape Synergy is a web application that allows users to search for exercises and create workout plans.</p>
-        </div>
-        <div class="whats_on_site">
-            <ul>
-                <li><b>BMI Checking</b></li>
-                <div class="description">
-                Discover your Body Mass Index (BMI)
-                effortlessly using our BMI calculator.
-                Input your height and weight, and let our intuitive
-                tool calculate your BMI, providing valuable insights
-                into your current health status and helping you set achievable
-                fitness goals.
-                </div>
-                <li><b>Workout Plans</b></li>
-                <div class="description">Take your fitness routine to the next level with custom workout plans designed to meet your specific objectives. Whether you're aiming to build strength, improve endurance, or enhance flexibility, our workout planner empowers you to create and track personalized exercise regimens that fit seamlessly into your lifestyle.
-                </div>
-                <li><b>Diet Plans</b></li>
-                <div class="description">
-                    Fuel your body with the right nutrition by crafting personalized diet plans tailored to your dietary preferences and fitness goals. From balanced meal plans to targeted nutrition strategies, our diet planner equips you with the tools and resources you need to make informed choices and maintain a healthy diet.
-                </div>
-            </ul>
-        </div>
+<div class="main_container">
+
+
+    <div class="container">
+        <ul class="whats_on_site">
+            <h1>⚖</h1>
+            <h2>BMI Checking</h2>
+            <div class="description">
+                Discover your Body Mass Index (BMI) effortlessly using our BMI calculator. Input your height and weight,
+                and let our intuitive tool calculate your BMI, providing valuable insights into your current health status
+                and helping you set achievable fitness goals.
+            </div>
+        </ul>
     </div>
+    <div class="container">
+        <ul class="whats_on_site">
+            <img src="../static/css/imgs/barbell.png" id="barbell">
+            <h2>Workout Plans</h2>
+            <div class="description">Take your fitness routine to the next level with custom workout plans designed to meet your specific objectives. Whether you're aiming to build strength, improve endurance, or enhance flexibility, our workout planner empowers you to create and track personalized exercise regimens that fit seamlessly into your lifestyle.</div>
+        </ul>
+    </div>
+    <div class="container">
+        <ul class="whats_on_site">
+            <h1 style="color:transparent; text-shadow: 0 0 0 white;">🍴</h1>
+            <h2>Diet Plans</h2>
+            <div class="description">
+                Fuel your body with the right nutrition by crafting personalized diet plans tailored to your dietary preferences and fitness goals. From balanced meal plans to targeted nutrition strategies, our diet planner equips you with the tools and resources you need to make informed choices and maintain a healthy diet.
+            </div>
+        </ul>
+    </div>
+</div>
 
 </body>
-</html>

@@ -1,0 +1,34 @@
+
+.navbar_menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.navbar_list {
+    display: flex;
+}
+
+.navbar_item {
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar_link {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0.1rem 0.8rem;
+    height: 80%;
+    border: 2px solid white;
+    border-radius: 20px;
+    margin-left: 20px;
+}
+
+.navbar_link:hover {
+    color: lightpink;
+    transition: all 0.3s ease;
+}

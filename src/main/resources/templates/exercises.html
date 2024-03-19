@@ -4,15 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercise Names</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="/css/exercises.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="yourExercises">
-
+<nav class="navbar">
+    <div class="navbar_container">
+        <div class="logo">Shape Synergy</div>
+        <div class="navbar_toggle" id="mobile">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="navbar_menu">
+            <ul class="navbar_list">
+                <li class="navbar_item">
+                    <a href="/login" class="navbar_link">Login</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/registration" class="navbar_link">Register</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/contact" class="navbar_link">Contact</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <button id="submitButton" style="display: none">Submit workout plan</button>
+</nav>
+<div class="container">
     <div class="listOfExercises">
         <h1>Exercise Names</h1>
         <input type="text" id="searchInput" placeholder="Search for exercise...">
@@ -22,6 +45,10 @@
         <button id="nextPage" style="display: none;">Next exercises</button>
         <div id="muscleRadioButtons"></div>
     </div>
+    <div class="btn_under_exercises">
+    <div class="yourExercises"></div>
+    <button id="submitButton" style="display: none">Submit workout plan</button>
+</div>
 </div>
 <script src="/js/exercises.js"></script>
 </body>
