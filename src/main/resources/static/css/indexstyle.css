@@ -1,0 +1,51 @@
+.main_container {
+    color: white;
+    position: relative;
+    z-index: 1;
+    opacity: 0.8;
+
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px;
+    text-align: left;
+    top: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    flex: 1;
+    padding-bottom: 20px;
+    border: 2px solid white; /* Add border */
+    background-color: rgba(0,0,0 ,0.5); /* Add background color */
+    border-radius: 10px; /* Add border radius */
+    margin: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: black 0px 0px 10px 0px;
+}
+.container:hover {
+    transform: scale(1.05); /* Scale up on hover */
+    border-color: lightpink;
+}
+.container h2 {
+
+    margin-bottom: 20px;
+}
+
+.whats_on_site {
+    padding-top: 40px;
+}
+
+.whats_on_site ul {
+    list-style: none;
+}
+
+.description {
+    padding: 10px;
+}
+#barbell {
+    width:10%;
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+}

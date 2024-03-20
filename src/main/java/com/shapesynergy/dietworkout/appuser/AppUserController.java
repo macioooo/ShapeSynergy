@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -41,9 +42,9 @@ public class AppUserController {
         return "register";
     }
     @PostMapping("/registration")
-    public String registerUser(@ModelAttribute("user") AppUserDTO appUserDTO, Model model) {
+    public String registerUser(@ModelAttribute("user") AppUserDTO appUserDTO, RedirectAttributes redirectAttributes) {
         appUserService.save(appUserDTO);
-        model.addAttribute("message", "User registered successfully");
+        redirectAttributes.addFlashAttribute("successMessage", "User registered successfully");
         return "redirect:/login";
     }
 

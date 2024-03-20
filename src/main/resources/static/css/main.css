@@ -1,14 +1,26 @@
 * {
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     font-family: "Poppins", sans-serif;
 }
+
 body {
-    background-color: black;
+    background: white;
 }
+
+
+.logo {
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .navbar {
-    background: black;
+    background: #9ab2d4;
     color: white;
     height: 80px;
     display: flex;
@@ -18,4 +30,60 @@ body {
     position: sticky;
     top: 0;
     z-index: 999;
+    box-shadow: black 0px 0px 10px 0px;
+}
+
+.navbar_container {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    padding: 0 50px;
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+.navbar_menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+
+.navbar_item {
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar_link {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0.1rem 0.8rem;
+    height: 80%;
+    border: 2px solid white;
+    border-radius: 20px;
+
+}
+
+.navbar_link:hover {
+    color: lightpink;
+    transition: all 0.3s ease;
+}
+
+.navbar_list {
+    display: flex;
+}
+
+.navbar_list .navbar_item:not(:last-child) {
+    margin-right: 20px;
+}
+.redirect_
+{
+    color:white;
+    text-decoration: none;
 }
