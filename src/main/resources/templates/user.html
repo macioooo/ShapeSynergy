@@ -1,56 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0e2433;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header {
-            background-color: #45b6fe;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #0e2433;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        h2 {
-            color: #45b6fe;
-        }
-
-        /* Add more styles and components for your dashboard here */
-    </style>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Shape Synergy</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/indexstyle.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
-<div class="header">
-    <h1>USER Dashboard</h1>
+<nav class="navbar">
+    <div class="navbar_container">
+        <div class="logo">Shape Synergy</div>
+        <div class="navbar_toggle" id="mobile">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="navbar_menu">
+            <ul class="navbar_list">
+                <li class="navbar_item">
+                    <span sec:authorize="isAuthenticated">
+                    <a th:href="@{/logout}" class="navbar_link">Logout</a></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h2>Welcome, [[${user.getName()}]]</h2>
+<div class="main_container">
+
+
+    <div class="container">
+        <ul class="whats_on_site">
+            <h1>⚖</h1>
+            <h2>BMI Checking</h2>
+            <div class="description">
+                Discover your Body Mass Index (BMI) effortlessly using our BMI calculator. Input your height and weight,
+                and let our intuitive tool calculate your BMI, providing valuable insights into your current health status
+                and helping you set achievable fitness goals.
+            </div>
+        </ul>
+    </div>
+    <div class="container">
+        <a href="exercises" class="redirect_">
+        <ul class="whats_on_site">
+            <img src="/css/imgs/barbell.png" id="barbell">
+            <h2>Workout Plans</h2>
+            <div class="description">Take your fitness routine to the next level with custom workout plans designed to meet your specific objectives. Whether you're aiming to build strength, improve endurance, or enhance flexibility, our workout planner empowers you to create and track personalized exercise regimens that fit seamlessly into your lifestyle.</div>
+        </ul>
+        </a>
+    </div>
+    <div class="container">
+        <ul class="whats_on_site">
+            <h1 style="color:transparent; text-shadow: 0 0 0 white;">🍴</h1>
+            <h2>Diet Plans</h2>
+            <div class="description">
+                Fuel your body with the right nutrition by crafting personalized diet plans tailored to your dietary preferences and fitness goals. From balanced meal plans to targeted nutrition strategies, our diet planner equips you with the tools and resources you need to make informed choices and maintain a healthy diet.
+            </div>
+        </ul>
+    </div>
 </div>
-<div class="container">
-    <h2>Welcome, [[${user.getName()}]]</h2>
 
-    <span sec:authorize="isAuthenticated">
-    <a th:href="@{/logout}">Logout</a>
-</span>
-
-
-</div>
 </body>
-</html>
