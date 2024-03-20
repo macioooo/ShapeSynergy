@@ -1,8 +1,11 @@
 package com.shapesynergy.dietworkout.appuser;
 
 import com.shapesynergy.dietworkout.appuser.service.AppUserService;
+import com.shapesynergy.dietworkout.appuser.service.CustomAppUserDetails;
+import com.shapesynergy.dietworkout.exercises.WorkoutPlans;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -62,5 +66,17 @@ public class AppUserController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("user", userDetails);
         return "admin";
+    }
+    @GetMapping("/getUserWorkoutPlans")
+    public ResponseEntity<List<String>> getUserWorkoutPlans(@AuthenticationPrincipal CustomAppUserDetails userDetails){
+        List<String> workoutPlan = appUserService.getUserWorkoutPlan(userDetails.getId());
+        if (workoutPlan.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(workoutPlan);
+    }
+    @GetMapping("/userWorkoutPlans")
+    public String getUserWorkoutPlansPage() {
+        return "userWorkoutPlans";
     }
 }

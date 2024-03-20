@@ -5,7 +5,7 @@
     font-family: "Poppins", sans-serif;
 }
 body {
-    background: rgba(154, 178, 212,0.6);
+    background: white;
 }
 
 #searchButton {
@@ -129,59 +129,96 @@ input[type="radio"] {
     font-weight: 600;
     border-radius: 3px;
     padding: 12px 24px;
-    border: 0;
+    background: #9ab2d4;
+    border: white solid 2px;
     color: #fff;
-    background: darkred;
     line-height: 1.15;
     font-size: 16px;
     :hover {
         transition: all .1s ease;
-        box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+        box-shadow: 0 0 0 0 #fff, 0 0 0 3px lightpink;
     }
 }
 .exerciseNotClicked {
     display: inline-block;
     outline: none;
+    border: white solid 2px;
     cursor: pointer;
     font-weight: 600;
     border-radius: 3px;
     padding: 12px 24px;
-    border: 0;
     color: #fff;
-    background: #000a47;
+    background: #9ab2d4;
     line-height: 1.15;
     font-size: 16px;
     :hover {
         transition: all .1s ease;
-        box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+        background-color: lightpink;
+        box-shadow: 0 0 0 0 pink, 0 0 0 3px lightpink;
     }
-}
-.container {
-    display: flex;
 }
 
 .yourExercises {
     width: 250px;
     padding: 30px;
+    text-align: right;
 }
 #submitButton {
     margin-top: 20px;
+    background-color: #0099ff;
+    color: white;
+    border: white 2px solid;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 20px 40px;
+}
+#submitButton:hover {
+    color:lightpink;
+    transition: all .1s ease;
 }
 
 .container {
     display: flex;
+    justify-content: space-between; /* Align items to left, center, and right */
+    padding-top: 30px;
+    padding-right: 30px;
+}
+
+.exerciseNames {
+    padding-top: 50px;
+    padding-left: 130px;
+    padding-right: 130px;
+
 }
 
 .listOfExercises {
-    flex: 1;
-    padding: 30px;
+    width: 30%; /* Adjust as needed */
+    margin-left:10%;
 }
 
 .listOfExercises_display {
+    flex: 1; /* Take remaining space */
     padding: 30px;
 }
+
+#exerciseNames {
+    text-align: left; /* Align exercise names to the left */
+    width: 40%;
+}
+
 .btn_under_exercises {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    text-align: right; /* Align buttons to the right */
+}
+
+#nextPage, #previousPage {
+    background-color: #0099ff;
+    color: white;
+    border: white 2px solid;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+#nextPage:hover, #previousPage:hover {
+    color:lightpink;
+    transition: all .1s ease;
 }

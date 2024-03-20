@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul id="workoutPlansList"></ul>
+
+<script>
+    // Fetch workout plans from the server
+    fetch('/getUserWorkoutPlans')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch workout plans');
+            }
+            return response.json();
+        })
+        .then(workoutPlans => {
+            // Display workout plans on the webpage
+            const workoutPlansList = document.getElementById('workoutPlansList');
+            workoutPlans.forEach(plan => {
+                const listItem = document.createElement('li');
+                listItem.textContent = plan;
+                workoutPlansList.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching workout plans:', error);
+        });
+</script>
+</body>
+</html>

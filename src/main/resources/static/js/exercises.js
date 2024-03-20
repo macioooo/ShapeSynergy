@@ -47,6 +47,11 @@ var workoutPlan = []; // Array to store selected exercises
     // Function to display exercises in the "Your exercises" div
     function displayWorkoutPlan() {
     var yourExercisesDiv = document.querySelector('.yourExercises');
+        if (workoutPlan.length === 0) {
+            yourExercisesDiv.style.display = 'none';
+        } else {
+            yourExercisesDiv.style.display = 'block';
+        }
     yourExercisesDiv.innerHTML = '<h2>Your exercises:</h2><br>';
 
     workoutPlan.forEach(function (exercise) {
@@ -63,8 +68,12 @@ var workoutPlan = []; // Array to store selected exercises
     yourExercisesDiv.appendChild(exerciseText);
     yourExercisesDiv.appendChild(document.createElement('br')); // Append <br> after each exercise
 });
-    var submitButton = document.getElementById('submitButton');
-    submitButton.style.display = 'inline-block';
+        // Create and append the "Submit workout plan" button
+        var submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit workout plan';
+        submitButton.id = 'submitButton';
+        yourExercisesDiv.appendChild(document.createElement('br'));
+        yourExercisesDiv.appendChild(submitButton);
 }
 
 
@@ -75,6 +84,22 @@ var workoutPlan = []; // Array to store selected exercises
 
     // Function that triggers the display of the pagination buttons
     function triggerButton(page) {
+        // Select the exerciseNames div
+        var exerciseNamesDiv = document.getElementById('exerciseNames');
+
+// Create the buttons
+        var previousButton = document.createElement('button');
+        previousButton.textContent = 'Previous exercises';
+        previousButton.id = 'previousPage';
+
+        var nextButton = document.createElement('button');
+        nextButton.textContent = 'Next exercises';
+        nextButton.id = 'nextPage';
+
+// Append the buttons to the exerciseNames div
+        exerciseNamesDiv.appendChild(previousButton);
+        exerciseNamesDiv.appendChild(nextButton);
+
     if (page > 0) {
     document.getElementById('previousPage').style.display = 'block';
 } else {
@@ -152,7 +177,7 @@ var workoutPlan = []; // Array to store selected exercises
 });
 
     // Event listener for clicking on the previous page button
-    $('#previousPage').click(function () {
+        $(document).on('click', '#previousPage', function () {
     var query = $('#searchInput').val();
     var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
     var currentOffset = parseInt($('#previousPage').data('offset')); // Get the previous offset value
@@ -161,7 +186,7 @@ var workoutPlan = []; // Array to store selected exercises
 });
 
     // Event listener for clicking on the next page button
-    $('#nextPage').click(function () {
+    $(document).on('click', '#nextPage', function () {
     var query = $('#searchInput').val();
     var muscle = $('input[name="muscleOption"]:checked').val(); // Get the selected muscle
     var currentOffset = parseInt($('#nextPage').data('offset')); // Get the current offset value
@@ -169,19 +194,18 @@ var workoutPlan = []; // Array to store selected exercises
     searchExerciseNames(query, muscle, offset);
 });
     // Event listener for clicking on the submit button
-    // Event listener for clicking on the submit button
-    $('#submitButton').click(function () {
-    $.ajax({
-    url: 'exercises/getarray',
-    type: 'POST', // Change the request type to POST
-    contentType: 'application/json', // Specify the content type as JSON
-    data: JSON.stringify(workoutPlan), // Convert workoutPlan array to JSON string
-    success: function (response) {
-    console.log('Response from backend:', response);
-},
-    error: function (xhr, status, error) {
-    console.error('Failed to submit workout plan:', error);
-}
-});
-});
+        $(document).on('click', '#submitButton', function () {
+            $.ajax({
+                url: 'exercises/getarray',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(workoutPlan),
+                success: function (response) {
+                    console.log('Response from backend:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Failed to submit workout plan:', error);
+                }
+            });
+        });
 });

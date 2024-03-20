@@ -3,28 +3,32 @@ package com.shapesynergy.dietworkout.exercises;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.shapesynergy.dietworkout.appuser.AppUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Service
-public class ExercisesService {
+public class WorkoutPlansService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate;
     private final HttpHeaders headers;
     private final String URL = "https://api.api-ninjas.com/v1/exercises";
-    private ExerciseRepository exerciseRepository;
+    private WorkoutPlansRepository workoutPlansRepository;
 
-    public ExercisesService(@Value("${api.keyExercises}") String apiKey, ExerciseRepository exerciseRepository) {
+    public WorkoutPlansService(@Value("${api.keyExercises}") String apiKey, WorkoutPlansRepository workoutPlansRepository) {
         this.restTemplate = new RestTemplate();
         this.headers = new HttpHeaders();
         this.headers.set("X-Api-Key", apiKey);
         this.headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        this.exerciseRepository = exerciseRepository;
+        this.workoutPlansRepository = workoutPlansRepository;
     }
 
     private ResponseEntity<String> fetchExercisesFromApi(String muscle, String exercise, int offset) {
@@ -55,13 +59,18 @@ public class ExercisesService {
         return exerciseName;
     }
 
-    public String add(ArrayList<String> exerciseList) {
+    public String add(ArrayList<String> exerciseList, AppUser appUser) {
+        StringBuilder workoutPlan = new StringBuilder();
         for (String exercise : exerciseList) {
-            Exercises newExercise = new Exercises(exercise);
-            exerciseRepository.save(newExercise);
+            workoutPlan.append(exercise).append(", ");
         }
-        return "Exercises saved";
+        WorkoutPlans newWorkoutPlan = new WorkoutPlans(workoutPlan.toString());
+        newWorkoutPlan.setUser(appUser);
+        workoutPlansRepository.save(newWorkoutPlan);
+        return "Workout Plan saved";
     }
+
+
 
 
 }
