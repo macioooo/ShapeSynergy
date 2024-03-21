@@ -40,11 +40,10 @@
 
     <label for="password" class="form_label">Password:</label><br>
     <input type="password" id="password" name="password" class="form_input" required><br><br>
-    <div th:if="${message}" class="message">
-        <p th:text="${message}"></p>
-    </div>
     <input type="submit" value="Register" class="form_button">
 </form>
-
+<div class="center-container" th:if="${errorMessage}">
+    <span th:text="${errorMessage}" id="error"></span>
+</div>
 </body>
 </html>

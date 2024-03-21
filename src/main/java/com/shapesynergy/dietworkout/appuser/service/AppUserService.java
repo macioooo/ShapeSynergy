@@ -6,6 +6,7 @@ import com.shapesynergy.dietworkout.appuser.AppUserRepository;
 import com.shapesynergy.dietworkout.appuser.AppUserRole;
 import com.shapesynergy.dietworkout.exercises.WorkoutPlans;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AppUserService {
 
+    @Autowired
     private final AppUserRepository appUserRepository;
     private PasswordEncoder passwordEncoder;
     private final static String USER_NOT_FOUND = "email %s not found";
@@ -38,5 +40,9 @@ public class AppUserService {
         String workoutPlan = workoutPlans.get(0).getWorkout_plan();
         List<String> workoutPlanList = new ArrayList<>(Arrays.asList(workoutPlan.split(", ")));
         return workoutPlanList;
+    }
+
+    public boolean checkIfUserExists(String email) {
+        return appUserRepository.findByEmail(email) != null;
     }
 }

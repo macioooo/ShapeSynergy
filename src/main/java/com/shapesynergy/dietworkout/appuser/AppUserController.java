@@ -2,7 +2,6 @@ package com.shapesynergy.dietworkout.appuser;
 
 import com.shapesynergy.dietworkout.appuser.service.AppUserService;
 import com.shapesynergy.dietworkout.appuser.service.CustomAppUserDetails;
-import com.shapesynergy.dietworkout.exercises.WorkoutPlans;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -43,6 +43,10 @@ public class AppUserController {
     }
     @PostMapping("/registration")
     public String registerUser(@ModelAttribute("user") AppUserDTO appUserDTO, RedirectAttributes redirectAttributes) {
+        if (appUserService.checkIfUserExists(appUserDTO.getEmail())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Email is already taken");
+            return "redirect:/registration";
+        }
         appUserService.save(appUserDTO);
         redirectAttributes.addFlashAttribute("successMessage", "User registered successfully");
         return "redirect:/login";
@@ -55,6 +59,9 @@ public class AppUserController {
         }
         return "login";
     }
+
+
+
 
     @GetMapping("/user")
     public String getUserPage(Model model, Principal principal) {

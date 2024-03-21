@@ -1,3 +1,5 @@
+
+
 var workoutPlan = []; // Array to store selected exercises
 
     function createMuscleRadioButtons() {
@@ -200,11 +202,22 @@ var workoutPlan = []; // Array to store selected exercises
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(workoutPlan),
+                dataType: 'text', // Expect text/plain response
                 success: function (response) {
-                    console.log('Response from backend:', response);
+                    Swal.fire({
+                        title: "Good job!",
+                        text: response, // Use response directly
+                        icon: "success"
+                    });
                 },
-                error: function (xhr, status, error) {
-                    console.error('Failed to submit workout plan:', error);
+                error: function (xhr) {
+                    var errorMessage = xhr.responseText;
+                    $('#error').text(errorMessage);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: errorMessage,
+                    });
                 }
             });
         });

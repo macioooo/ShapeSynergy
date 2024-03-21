@@ -42,6 +42,9 @@
 <div class="center-container" th:if="${successMessage}">
     <span th:text="${successMessage}" id="success"></span>
 </div>
+<div class="center-container" th:if="${errorMessage}">
+    <span th:text="${errorMessage}" id="error"></span>
+</div>
 </body>
 
 </html>

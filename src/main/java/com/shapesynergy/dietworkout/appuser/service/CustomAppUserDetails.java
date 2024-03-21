@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomAppUserDetails implements UserDetails {
@@ -17,25 +18,28 @@ public class CustomAppUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (user == null || user.getAppUserRole() == null) {
+            return Collections.emptyList();
+        }
         return List.of(() -> user.getAppUserRole().name());
     }
 
     public String getName() {
-        return user.getName();
+        return user != null ? user.getName() : null;
     }
 
     public Long getId() {
-        return user.getId_user();
+        return user != null ? user.getId_user() : null;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user != null ? user.getPassword() : null;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user != null ? user.getEmail() : null;
     }
 
     @Override
@@ -58,3 +62,4 @@ public class CustomAppUserDetails implements UserDetails {
         return true;
     }
 }
+

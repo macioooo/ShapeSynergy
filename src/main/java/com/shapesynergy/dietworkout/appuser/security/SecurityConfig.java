@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/user").hasAuthority(AppUserRole.USER.name())
                         .requestMatchers("/**").permitAll())
 
-                .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll())
+                .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll().failureUrl("/loginerror"))
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll());
         return http.build();

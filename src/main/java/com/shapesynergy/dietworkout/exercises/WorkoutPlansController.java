@@ -1,5 +1,6 @@
 package com.shapesynergy.dietworkout.exercises;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shapesynergy.dietworkout.appuser.AppUser;
 import com.shapesynergy.dietworkout.appuser.AppUserRepository;
@@ -9,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,10 +30,17 @@ public class WorkoutPlansController {
         return ResponseEntity.ok().body(workoutPlansService.searchForExercise(muscle, exercise, offset));
     }
     @PostMapping("/getarray")
-    public ResponseEntity<String> getArrayWithExercises(@RequestBody ArrayList<String> exerciseList, @AuthenticationPrincipal CustomAppUserDetails userDetails) {
+    public ResponseEntity<String> getArrayWithExercises(@RequestBody ArrayList<String> exerciseList, @AuthenticationPrincipal CustomAppUserDetails userDetails, Model model) {
         AppUser user = appUserRepository.findByEmail(userDetails.getUsername());
-        workoutPlansService.add(exerciseList, user);
-        return ResponseEntity.status(HttpStatus.OK).body("Exercises added successfully");
+        if (user.getWorkoutPlans().size() >=3) {
+         String errormessage = "You can have only 3 workout plans";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errormessage);
+        } else {
+            workoutPlansService.add(exerciseList, user);
+        }
+            return ResponseEntity.status(HttpStatus.OK).body("Exercises added successfully");
+
+
     }
 
 

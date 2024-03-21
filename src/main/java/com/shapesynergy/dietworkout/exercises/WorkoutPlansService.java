@@ -60,14 +60,15 @@ public class WorkoutPlansService {
     }
 
     public String add(ArrayList<String> exerciseList, AppUser appUser) {
-        StringBuilder workoutPlan = new StringBuilder();
-        for (String exercise : exerciseList) {
-            workoutPlan.append(exercise).append(", ");
-        }
-        WorkoutPlans newWorkoutPlan = new WorkoutPlans(workoutPlan.toString());
-        newWorkoutPlan.setUser(appUser);
-        workoutPlansRepository.save(newWorkoutPlan);
-        return "Workout Plan saved";
+        //Max 3 plans per user
+            StringBuilder workoutPlan = new StringBuilder();
+            for (String exercise : exerciseList) {
+                workoutPlan.append(exercise).append(", ");
+            }
+            WorkoutPlans newWorkoutPlan = new WorkoutPlans(workoutPlan.toString());
+            newWorkoutPlan.setUser(appUser);
+            workoutPlansRepository.save(newWorkoutPlan);
+            return "Workout Plan saved";
     }
 
 
