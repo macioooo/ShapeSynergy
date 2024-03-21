@@ -59,6 +59,12 @@ public class AppUserController {
         }
         return "login";
     }
+    @GetMapping("/loginerror")
+    public String loginError(RedirectAttributes redirectAttributes)
+    {
+        redirectAttributes.addFlashAttribute("errorMessage", "Invalid email or password");
+        return "redirect:/login";
+    }
 
 
 
