@@ -55,7 +55,12 @@ var workoutPlan = []; // Array to store selected exercises
             yourExercisesDiv.style.display = 'block';
         }
     yourExercisesDiv.innerHTML = '<h2>Your exercises:</h2><br>';
-
+        var workoutPlanName = document.createElement('input');
+        workoutPlanName.setAttribute('type', 'text');
+        workoutPlanName.setAttribute('name', 'workoutPlanName');
+        workoutPlanName.setAttribute('placeholder', 'Enter workout plan name');
+        workoutPlanName.setAttribute('required', 'required');
+        yourExercisesDiv.appendChild(workoutPlanName);
     workoutPlan.forEach(function (exercise) {
     var exerciseText = document.createElement('span');
     exerciseText.textContent = exercise;
@@ -195,13 +200,28 @@ var workoutPlan = []; // Array to store selected exercises
     var offset = isNaN(currentOffset) ? 0 : currentOffset + 10; // Check if currentOffset is NaN, if so, set it to 0
     searchExerciseNames(query, muscle, offset);
 });
-    // Event listener for clicking on the submit button
+
+
+        // Event listener for clicking on the submit button
         $(document).on('click', '#submitButton', function () {
+            var workoutPlanName = $('input[name="workoutPlanName"]').val(); // Get the workout plan name from the input field
+            if (!workoutPlanName) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Please enter a workout plan name!",
+                });
+                return;
+            }
+            var requestBody = {
+                workoutPlanName: workoutPlanName,
+                exerciseList: workoutPlan
+            };
             $.ajax({
                 url: 'exercises/getarray',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(workoutPlan),
+                data: JSON.stringify(requestBody), // Send the requestBody object
                 dataType: 'text', // Expect text/plain response
                 success: function (response) {
                     Swal.fire({
@@ -221,4 +241,5 @@ var workoutPlan = []; // Array to store selected exercises
                 }
             });
         });
-});
+
+    });

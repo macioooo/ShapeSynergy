@@ -4,12 +4,9 @@ import com.shapesynergy.dietworkout.appuser.AppUser;
 import com.shapesynergy.dietworkout.appuser.AppUserDTO;
 import com.shapesynergy.dietworkout.appuser.AppUserRepository;
 import com.shapesynergy.dietworkout.appuser.AppUserRole;
-import com.shapesynergy.dietworkout.exercises.WorkoutPlans;
+import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,14 +32,13 @@ public class AppUserService {
         );
         return appUserRepository.save(appUser);
     }
-    public List<String> getUserWorkoutPlan(Long id_user) {
+    public List<WorkoutPlans> getAllUserWorkoutPlans(Long id_user) {
         List<WorkoutPlans> workoutPlans = appUserRepository.findById(id_user).get().getWorkoutPlans();
-        String workoutPlan = workoutPlans.get(0).getWorkout_plan();
-        List<String> workoutPlanList = new ArrayList<>(Arrays.asList(workoutPlan.split(", ")));
-        return workoutPlanList;
+       return workoutPlans;
     }
 
     public boolean checkIfUserExists(String email) {
         return appUserRepository.findByEmail(email) != null;
     }
+
 }

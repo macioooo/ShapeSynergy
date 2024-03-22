@@ -1,5 +1,6 @@
 package com.shapesynergy.dietworkout.appuser;
 
+import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
 import com.shapesynergy.dietworkout.appuser.service.AppUserService;
 import com.shapesynergy.dietworkout.appuser.service.CustomAppUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -81,16 +79,24 @@ public class AppUserController {
         model.addAttribute("user", userDetails);
         return "admin";
     }
-    @GetMapping("/getUserWorkoutPlans")
-    public ResponseEntity<List<String>> getUserWorkoutPlans(@AuthenticationPrincipal CustomAppUserDetails userDetails){
-        List<String> workoutPlan = appUserService.getUserWorkoutPlan(userDetails.getId());
-        if (workoutPlan.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok().body(workoutPlan);
-    }
+
+//Workout
+
     @GetMapping("/userWorkoutPlans")
-    public String getUserWorkoutPlansPage() {
-        return "userWorkoutPlans";
+    public String getUserWorkoutPlans(Model model, @AuthenticationPrincipal CustomAppUserDetails userDetails) {
+        List<WorkoutPlans> workoutPlans = appUserService.getAllUserWorkoutPlans(userDetails.getId());
+        model.addAttribute("workoutPlans", workoutPlans);
+        return "userWorkoutPlans"; // Replace "your-template-name" with the actual name of your Thymeleaf template
     }
+
+    //redirect to userWorkoutPlans after deleting a workout plan
+    @GetMapping("exercises/deleteWorkoutPlan/**")
+        public String deleteWorkoutPlan() {
+            return "redirect:/userWorkoutPlans";
+        }
+
+
+
+
+
 }

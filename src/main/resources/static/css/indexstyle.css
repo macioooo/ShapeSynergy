@@ -44,7 +44,7 @@
 .description {
     padding: 10px;
 }
-#barbell {
+.barbell {
     width:10%;
     -webkit-filter: invert(100%); /* Safari/Chrome */
     filter: invert(100%);

@@ -1,4 +1,4 @@
-    package com.shapesynergy.dietworkout.exercises;
+    package com.shapesynergy.dietworkout.WorkoutPlans;
 
     import com.shapesynergy.dietworkout.appuser.AppUser;
     import jakarta.persistence.*;
@@ -12,9 +12,10 @@
     public class WorkoutPlans {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id_workout_plan;
+        private Long id_workout_plan;
         private String workout_plan;
-        @ManyToOne(cascade = CascadeType.ALL)
+        private String workout_plan_name;
+        @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
         @JoinColumn(name = "id_user", referencedColumnName = "id_user")
         private AppUser user;
 

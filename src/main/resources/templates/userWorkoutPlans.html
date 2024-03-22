@@ -1,33 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>User Workout Plans</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/indexstyle.css}">
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<ul id="workoutPlansList"></ul>
-
+<div id="workoutPlans">
+    <div class="main_container">
+        <!-- Loop through workout plans and populate description divs -->
+        <div class="container" th:each="workoutPlan : ${workoutPlans}">
+            <ul class="whats_on_site">
+                <img src="/css/imgs/barbell.png" class="barbell">
+                <h2 th:text="${workoutPlan.getWorkout_plan_name()}"></h2>
+                <div class="description">
+                    <ul>
+                        <li th:each="exercise : ${#strings.arraySplit(workoutPlan.getWorkout_plan(), ',')}">
+                            <span th:text="${exercise}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Use consistent ID selector for the button -->
+                <button class="deleteWorkoutPlanBtn" th:attr="data-workout-plan-id=${workoutPlan.getId_workout_plan()}">Delete</button>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Fetch workout plans from the server
-    fetch('/getUserWorkoutPlans')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch workout plans');
-            }
-            return response.json();
-        })
-        .then(workoutPlans => {
-            // Display workout plans on the webpage
-            const workoutPlansList = document.getElementById('workoutPlansList');
-            workoutPlans.forEach(plan => {
-                const listItem = document.createElement('li');
-                listItem.textContent = plan;
-                workoutPlansList.appendChild(listItem);
+    $(document).ready(function () {
+        // Event listener for the delete buttons
+        $('.deleteWorkoutPlanBtn').click(function () {
+            // Get the workout plan ID from the button's data attribute
+            var workoutPlanId = $(this).data('workout-plan-id');
+
+            // Store a reference to the button element
+            var button = $(this);
+
+            // Send a POST request to delete the workout plan
+            $.ajax({
+                type: 'POST',
+                url: '/exercises/deleteWorkoutPlan/' + workoutPlanId,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+                },
+                dataType: 'text',
+                success: function (response) {
+                        Swal.fire({
+                            title: "Good job!",
+                            text: response, // Use response directly
+                            icon: "success"
+                        });
+                        button.closest('.container').remove(); // Remove the deleted workout plan from the view
+                },
+                error: function (response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: response,
+                    });
+                }
             });
-        })
-        .catch(error => {
-            console.error('Error fetching workout plans:', error);
         });
+    });
+
 </script>
 </body>
 </html>

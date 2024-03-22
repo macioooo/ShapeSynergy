@@ -1,19 +1,18 @@
-package com.shapesynergy.dietworkout.exercises;
+package com.shapesynergy.dietworkout.WorkoutPlans;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.shapesynergy.dietworkout.appuser.AppUser;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class WorkoutPlansService {
@@ -59,16 +58,26 @@ public class WorkoutPlansService {
         return exerciseName;
     }
 
-    public String add(ArrayList<String> exerciseList, AppUser appUser) {
-        //Max 3 plans per user
+    public String add(ArrayList<String> exerciseList, AppUser appUser, String workoutPlanName) {
             StringBuilder workoutPlan = new StringBuilder();
             for (String exercise : exerciseList) {
                 workoutPlan.append(exercise).append(", ");
             }
             WorkoutPlans newWorkoutPlan = new WorkoutPlans(workoutPlan.toString());
             newWorkoutPlan.setUser(appUser);
+            newWorkoutPlan.setWorkout_plan_name(workoutPlanName);
             workoutPlansRepository.save(newWorkoutPlan);
             return "Workout Plan saved";
+    }
+
+    public String deleteWorkoutPlan(Long id, AppUser user) {
+        WorkoutPlans workoutPlan = workoutPlansRepository.findById(id).get();
+        if (workoutPlan.getUser().equals(user)) {
+            workoutPlansRepository.delete(workoutPlan);
+            return "Workout plan deleted";
+        } else {
+            return "You can't delete this workout plan";
+        }
     }
 
 

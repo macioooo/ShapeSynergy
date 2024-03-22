@@ -1,4 +1,4 @@
-package com.shapesynergy.dietworkout.exercises;
+package com.shapesynergy.dietworkout.WorkoutPlans;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/exercises",
@@ -29,22 +28,30 @@ public class WorkoutPlansController {
     public ResponseEntity<String> searchExercise(@RequestParam String muscle, @RequestParam String exercise, @RequestParam int offset) throws JsonProcessingException {
         return ResponseEntity.ok().body(workoutPlansService.searchForExercise(muscle, exercise, offset));
     }
+
     @PostMapping("/getarray")
-    public ResponseEntity<String> getArrayWithExercises(@RequestBody ArrayList<String> exerciseList, @AuthenticationPrincipal CustomAppUserDetails userDetails, Model model) {
+    public ResponseEntity<String> getArrayWithExercises(@RequestBody WorkoutPlansDTO workoutPlansDTO, @AuthenticationPrincipal CustomAppUserDetails userDetails, Model model) {
         AppUser user = appUserRepository.findByEmail(userDetails.getUsername());
-        if (user.getWorkoutPlans().size() >=3) {
-         String errormessage = "You can have only 3 workout plans";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errormessage);
+        if (user.getWorkoutPlans().size() >= 3) {
+            String errorMessage = "You can have only 3 workout plans";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         } else {
-            workoutPlansService.add(exerciseList, user);
+            workoutPlansService.add(workoutPlansDTO.getExerciseList(), user, workoutPlansDTO.getWorkoutPlanName());
         }
-            return ResponseEntity.status(HttpStatus.OK).body("Exercises added successfully");
-
-
+        return ResponseEntity.status(HttpStatus.OK).body("Exercises added successfully");
     }
 
-
-
-
+    @PostMapping("/deleteWorkoutPlan/{workoutPlanId}")
+    public ResponseEntity<String> deleteWorkoutPlan(@PathVariable Long workoutPlanId,
+                                                    @AuthenticationPrincipal CustomAppUserDetails userDetails) {
+        AppUser user = appUserRepository.findByEmail(userDetails.getUsername());
+        workoutPlansService.deleteWorkoutPlan(workoutPlanId, user);
+        return ResponseEntity.ok().body("Workout plan deleted successfully");
+    }
 }
+
+
+
+
+
 

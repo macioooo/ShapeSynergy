@@ -1,13 +1,9 @@
 package com.shapesynergy.dietworkout.appuser;
 
-import com.shapesynergy.dietworkout.exercises.WorkoutPlans;
+import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.List;
 
 //Implements user role, access certain endpoints, APIs etc.
@@ -33,7 +29,7 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<WorkoutPlans> workoutPlans;
 
     //All needed for BMI calculation and diet plan
