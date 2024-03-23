@@ -1,8 +1,6 @@
 package com.shapesynergy.dietworkout.appuser.service;
 
 import com.shapesynergy.dietworkout.appuser.AppUser;
-import com.shapesynergy.dietworkout.appuser.AppUserRole;
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

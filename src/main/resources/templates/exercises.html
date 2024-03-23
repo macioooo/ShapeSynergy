@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,21 +24,19 @@
         <div class="navbar_menu">
             <ul class="navbar_list">
                 <li class="navbar_item">
-                    <a href="/login" class="navbar_link">Login</a>
+                    <a href="/userWorkoutPlans" class="navbar_link">Your workout plans</a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/registration" class="navbar_link">Register</a>
+                    <a href="/exercises" class="navbar_link">Create workout plan</a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/contact" class="navbar_link">Contact</a>
+                    <span sec:authorize="isAuthenticated">
+                    <a th:href="@{/logout}" class="navbar_link">Logout</a></span>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="center-container" th:if="${error}">
-    <span th:text="${error}" id="error"></span>
-</div>
 <div class="container">
     <div class="listOfExercises">
         <h1>Exercise Names</h1>

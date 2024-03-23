@@ -24,6 +24,12 @@
         <div class="navbar_menu">
             <ul class="navbar_list">
                 <li class="navbar_item">
+                    <a href="/userWorkoutPlans" class="navbar_link">Your workout plans</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/exercises" class="navbar_link">Create workout plan</a>
+                </li>
+                <li class="navbar_item">
                     <span sec:authorize="isAuthenticated">
                     <a th:href="@{/logout}" class="navbar_link">Logout</a></span>
                 </li>

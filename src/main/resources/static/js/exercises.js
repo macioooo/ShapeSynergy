@@ -89,6 +89,8 @@ var workoutPlan = []; // Array to store selected exercises
     return workoutPlan;
 }
 
+
+
     // Function that triggers the display of the pagination buttons
     function triggerButton(page) {
         // Select the exerciseNames div
@@ -122,8 +124,40 @@ var workoutPlan = []; // Array to store selected exercises
 }
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+const workoutPlanId = parseInt(urlParams.get('workoutPlanId'));
+
+function fetchExercisesAndAddToWorkoutPlan() {
+    $.ajax({
+        url: '/exercises/editWorkoutPlan?workoutPlanId=' + workoutPlanId, // Include the workoutPlanId in the URL
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Check if data is not empty and is an object containing the 'exerciseList' property
+            if (data && Array.isArray(data.exerciseList)) {
+                data.exerciseList.forEach(function (exercise) {
+                    if (!workoutPlan.includes(exercise)) {
+                        workoutPlan.push(exercise);
+                        console.log('Added exercise to workout plan:', exercise);
+                    } else {
+                        console.log('Exercise already exists in workout plan:', exercise);
+                    }
+                });
+                displayWorkoutPlan();
+            } else {
+                console.log('No valid exercise list found in the response');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Failed to fetch exercises:', error);
+        }
+    });
+}
+
+
     $(document).ready(function () {
     // Function to fetch exercise names based on search query, muscle, and offset
+        fetchExercisesAndAddToWorkoutPlan();
     function searchExerciseNames(exercise, muscle, offset) {
         $.ajax({
             url: '/exercises/search',
@@ -215,7 +249,8 @@ var workoutPlan = []; // Array to store selected exercises
             }
             var requestBody = {
                 workoutPlanName: workoutPlanName,
-                exerciseList: workoutPlan
+                exerciseList: workoutPlan,
+                id_workout_plan: workoutPlanId
             };
             $.ajax({
                 url: 'exercises/getarray',

@@ -26,6 +26,14 @@ public class AppUserController {
     @Autowired
     private final AppUserService appUserService;
 
+    @GetMapping("/")
+    public String preventUserFromAccesingHomePage(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails!=null) {
+            return "redirect:/user";
+        }
+    return "index";
+    }
+
     @GetMapping("/exercises")
     public String getExercisesPage() {
         return "exercises";

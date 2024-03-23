@@ -79,6 +79,31 @@ public class WorkoutPlansService {
             return "You can't delete this workout plan";
         }
     }
+    public WorkoutPlansDTO getWorkoutPlanById(Long id) {
+        WorkoutPlans workoutPlan = workoutPlansRepository.findById(id).get();
+        ArrayList<String> exerciseList = new ArrayList<>();
+        String[] exercises = workoutPlan.getWorkout_plan().split(", ");
+        for (String exercise : exercises) {
+            exerciseList.add(exercise);
+        }
+        return new WorkoutPlansDTO(exerciseList, workoutPlan.getWorkout_plan_name(), workoutPlan.getId_workout_plan());
+    }
+
+    public String editWorkoutPlan(ArrayList<String> workoutPlanEdited, Long id, AppUser user, String workoutPlanName) {
+        WorkoutPlans workoutPlan = workoutPlansRepository.findById(id).get();
+        if (workoutPlan.getUser().equals(user)) {
+            StringBuilder workoutPlanEditedString = new StringBuilder();
+            for (String exercise : workoutPlanEdited) {
+                workoutPlanEditedString.append(exercise).append(", ");
+            }
+            workoutPlan.setWorkout_plan_name(workoutPlanName);
+            workoutPlan.setWorkout_plan(workoutPlanEditedString.toString());
+            workoutPlansRepository.save(workoutPlan);
+            return "Workout plan edited";
+        } else {
+            return "You can't edit this workout plan";
+        }
+    }
 
 
 

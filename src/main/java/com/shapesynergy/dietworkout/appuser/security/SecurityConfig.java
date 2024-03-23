@@ -22,6 +22,8 @@ public class SecurityConfig {
     CustomSuccessHandler customSuccessHandler;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    private static final String[] USER_URLS = {"/user/**", "/userWorkoutPlans/**", "/exercises/**"};
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,7 +39,7 @@ public class SecurityConfig {
 
 
                         .requestMatchers("/admin").hasAuthority(AppUserRole.ADMIN.name())
-                        .requestMatchers("/user").hasAuthority(AppUserRole.USER.name())
+                        .requestMatchers(USER_URLS).hasAuthority(AppUserRole.USER.name())
                         .requestMatchers("/**").permitAll())
 
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll().failureUrl("/loginerror"))
