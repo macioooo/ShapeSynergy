@@ -36,7 +36,7 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private AppUserGender appUserGender;
     private Integer height;
-    private Float weight;
+    private Integer weight;
     private Integer age;
     private Integer activityLevel;
     private Integer goal;
@@ -46,7 +46,7 @@ public class AppUser {
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
 
-    public AppUser(String name, String email, String password, AppUserGender appUserGender, Integer height, Float weight, Integer age, Integer activityLevel, Integer goal, Integer bmi, AppUserRole appUserRole) {
+    public AppUser(String name, String email, String password, AppUserGender appUserGender, Integer height, Integer weight, Integer age, Integer activityLevel, Integer goal, Integer bmi, AppUserRole appUserRole) {
         this.name = name;
         this.email = email;
         this.password = password;

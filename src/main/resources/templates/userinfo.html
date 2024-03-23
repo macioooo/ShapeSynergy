@@ -1,0 +1,37 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Information Form</title>
+    </head>
+    <body>
+    <form action="/user/info" method="post">
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age"><br>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="appUserGender">
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+        </select><br>
+
+        <label for="activity_level">Activity Level:</label>
+        <input type="text" id="activity_level" name="activityLevel"><br>
+
+        <label for="goal">Goal:</label>
+        <input type="text" id="goal" name="goal"><br>
+
+        <label for="height">Height:</label>
+        <input type="text" id="height" name="height"><br>
+
+        <label for="weight">Weight:</label>
+        <input type="text" id="weight" name="weight"><br>
+
+        <label for="bmi">BMI:</label>
+        <input type="text" id="bmi" name="bmi"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    </body>
+    </html>

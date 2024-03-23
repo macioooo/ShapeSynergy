@@ -74,13 +74,30 @@ public class AppUserController {
 
 
 
-
+//USER PANEL
     @GetMapping("/user")
     public String getUserPage(Model model, Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("user", userDetails);
         return "user";
     }
+
+    @GetMapping("/user/info")
+    public String getUserInfoPage() {
+        return "userinfo";
+    }
+
+    @PostMapping("/user/info")
+    public String updateUserInfo(@ModelAttribute("appUserDTO") AppUserDTO appUserDTO, @AuthenticationPrincipal CustomAppUserDetails userDetails) {
+
+        appUserService.updateUserInfo(appUserDTO, userDetails.getId());
+        return "redirect:/user/info";
+    }
+
+
+
+
+
     @GetMapping("/admin")
     public String getAdminPage(Model model, Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());

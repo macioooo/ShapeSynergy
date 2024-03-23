@@ -157,7 +157,9 @@ function fetchExercisesAndAddToWorkoutPlan() {
 
     $(document).ready(function () {
     // Function to fetch exercise names based on search query, muscle, and offset
-        fetchExercisesAndAddToWorkoutPlan();
+        if(!isNaN(workoutPlanId)) {
+            fetchExercisesAndAddToWorkoutPlan();
+        }
     function searchExerciseNames(exercise, muscle, offset) {
         $.ajax({
             url: '/exercises/search',
