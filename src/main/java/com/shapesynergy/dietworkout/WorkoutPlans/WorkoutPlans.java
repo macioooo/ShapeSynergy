@@ -13,6 +13,7 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id_workout_plan;
+        @Column(length=3000)
         private String workout_plan;
         private String workout_plan_name;
         @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

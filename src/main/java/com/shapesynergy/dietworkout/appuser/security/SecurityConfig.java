@@ -36,12 +36,9 @@ public class SecurityConfig {
         
         http.csrf(c -> c.disable())
                 .authorizeHttpRequests(request -> request
-
-
                         .requestMatchers("/admin").hasAuthority(AppUserRole.ADMIN.name())
                         .requestMatchers(USER_URLS).hasAuthority(AppUserRole.USER.name())
                         .requestMatchers("/**").permitAll())
-
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler).permitAll().failureUrl("/loginerror"))
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll());
