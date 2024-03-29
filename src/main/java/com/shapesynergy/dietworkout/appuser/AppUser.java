@@ -35,18 +35,18 @@ public class AppUser {
     //All needed for BMI calculation and diet plan
     @Enumerated(EnumType.STRING)
     private AppUserGender appUserGender;
-    private Integer height;
-    private Integer weight;
+    private Double height;
+    private Double weight;
     private Integer age;
-    private Integer activityLevel;
-    private Integer goal;
-    private Integer bmi;
+    private AppUserActivityLevel activityLevel;
+    private AppUserGoal goal;
+    private Double bmi;
 
     //Spring security
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
 
-    public AppUser(String name, String email, String password, AppUserGender appUserGender, Integer height, Integer weight, Integer age, Integer activityLevel, Integer goal, Integer bmi, AppUserRole appUserRole) {
+    public AppUser(String name, String email, String password, AppUserGender appUserGender, Double height, Double weight, Integer age, AppUserActivityLevel activityLevel, AppUserGoal goal, Double bmi, AppUserRole appUserRole) {
         this.name = name;
         this.email = email;
         this.password = password;

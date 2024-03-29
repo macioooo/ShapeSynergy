@@ -17,12 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class AppUserService {
 
-    private final static String USER_NOT_FOUND = "email %s not found";
     @Autowired
     private final AppUserRepository appUserRepository;
     private PasswordEncoder passwordEncoder;
 
     public AppUser save(AppUserDTO appUserDTO) {
+        if (checkIfUserExists(appUserDTO.getEmail())) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         AppUser appUser = new AppUser(
                 appUserDTO.getName(),
                 appUserDTO.getEmail(),
@@ -49,8 +51,15 @@ public class AppUserService {
         appUser.setGoal(appUserDTO.getGoal());
         appUser.setHeight(appUserDTO.getHeight());
         appUser.setWeight(appUserDTO.getWeight());
-        appUser.setBmi(appUserDTO.getBmi());
+        calculateUserBMI(appUser);
         appUserRepository.save(appUser);
         return "User info updated successfully";
     }
+    private void calculateUserBMI(AppUser appUser) {
+        double height = appUser.getHeight()/100;
+        double weight = appUser.getWeight();
+        double bmi = (double) Math.round((weight / (height * height))*100)/100;
+        appUser.setBmi(bmi);
+    }
+
 }

@@ -8,7 +8,7 @@
     <body>
     <form action="/user/info" method="post">
         <label for="age">Age:</label>
-        <input type="text" id="age" name="age"><br>
+        <input type="number" id="age" name="age"><br>
 
         <label for="gender">Gender:</label>
         <select id="gender" name="appUserGender">
@@ -17,19 +17,25 @@
         </select><br>
 
         <label for="activity_level">Activity Level:</label>
-        <input type="text" id="activity_level" name="activityLevel"><br>
-
+        <select id="activity_level" name="activityLevel">
+            <option value="SEDENTARY">Sedentary</option>
+            <option value="LIGHTLY_ACTIVE">Lightly Active</option>
+            <option value="MODERATELY_ACTIVE">Moderately Active</option>
+            <option value="VERY_ACTIVE">Very Active</option>
+            <option value="SUPER_ACTIVE">Super Active</option>
+        </select><br>
         <label for="goal">Goal:</label>
-        <input type="text" id="goal" name="goal"><br>
+        <select id="goal" name="activityLevel">
+            <option value="LOSE_WEIGHT">Lose weight</option>
+            <option value="MAINTAIN_WEIGHT">Maintain Weight</option>
+            <option value="GAIN_WEIGHT">Gain Weight</option>
+        </select><br>
 
-        <label for="height">Height:</label>
-        <input type="text" id="height" name="height"><br>
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" name="height"><br>
 
-        <label for="weight">Weight:</label>
-        <input type="text" id="weight" name="weight"><br>
-
-        <label for="bmi">BMI:</label>
-        <input type="text" id="bmi" name="bmi"><br>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight"><br>
 
         <input type="submit" value="Submit">
     </form>

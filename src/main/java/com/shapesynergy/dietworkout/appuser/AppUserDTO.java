@@ -18,12 +18,12 @@ public class AppUserDTO {
 
     //All needed for BMI calculation and diet plan
     private AppUserGender appUserGender;
-    private Integer height;
-    private Integer weight;
+    private Double height;
+    private Double weight;
     private Integer age;
-    private Integer activityLevel;
-    private Integer goal;
-    private Integer bmi;
+    private AppUserActivityLevel activityLevel;
+    private AppUserGoal goal;
+    private Double bmi;
 
 
 
