@@ -5,7 +5,7 @@ $(document).ready(function () {
         var workoutPlanId = $(this).data('workout-plan-id');
 
         // Redirect to the desired URL with parameters
-        window.location.href = '/exercises?workoutPlanId=' + workoutPlanId;
+        window.location.href = '/user/exercises?workoutPlanId=' + workoutPlanId;
     });
 
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
             // Send a POST request to delete the workout plan
             $.ajax({
                 type: 'POST',
-                url: '/exercises/deleteWorkoutPlan/' + workoutPlanId,
+                url: '/user/exercises/deleteWorkoutPlan/' + workoutPlanId,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
                 },

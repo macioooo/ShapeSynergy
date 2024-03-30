@@ -129,7 +129,7 @@ const workoutPlanId = parseInt(urlParams.get('workoutPlanId'));
 
 function fetchExercisesAndAddToWorkoutPlan() {
     $.ajax({
-        url: '/exercises/editWorkoutPlan?workoutPlanId=' + workoutPlanId, // Include the workoutPlanId in the URL
+        url: 'exercises/editWorkoutPlan?workoutPlanId=' + workoutPlanId, // Include the workoutPlanId in the URL
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -162,7 +162,7 @@ function fetchExercisesAndAddToWorkoutPlan() {
         }
     function searchExerciseNames(exercise, muscle, offset) {
         $.ajax({
-            url: '/exercises/search',
+            url: '/user/exercises/search',
             type: 'GET',
             dataType: 'html',
             data: {exercise: exercise, muscle: muscle, offset: offset},
@@ -255,7 +255,7 @@ function fetchExercisesAndAddToWorkoutPlan() {
                 id_workout_plan: workoutPlanId
             };
             $.ajax({
-                url: 'exercises/getarray',
+                url: '/user/exercises/getarray',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestBody), // Send the requestBody object

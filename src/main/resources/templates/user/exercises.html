@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,30 +13,7 @@
 
 </head>
 <body>
-<nav class="navbar">
-    <div class="navbar_container">
-        <div class="logo">Shape Synergy</div>
-        <div class="navbar_toggle" id="mobile">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-        <div class="navbar_menu">
-            <ul class="navbar_list">
-                <li class="navbar_item">
-                    <a href="/userWorkoutPlans" class="navbar_link">Your workout plans</a>
-                </li>
-                <li class="navbar_item">
-                    <a href="/exercises" class="navbar_link">Create workout plan</a>
-                </li>
-                <li class="navbar_item">
-                    <span sec:authorize="isAuthenticated">
-                    <a th:href="@{/logout}" class="navbar_link">Logout</a></span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="navbar :: navbar"></div>
 <div class="container">
     <div class="listOfExercises">
         <h1>Exercise Names</h1>

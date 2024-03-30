@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/exercises",
+@RequestMapping(value = "user/exercises",
         produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class WorkoutPlansController {
@@ -50,7 +50,6 @@ public class WorkoutPlansController {
         workoutPlansService.deleteWorkoutPlan(workoutPlanId, user);
         return ResponseEntity.ok().body("Workout plan deleted successfully");
     }
-
     @GetMapping("/editWorkoutPlan")
     public ResponseEntity<WorkoutPlansDTO> editWorkoutPlan(@RequestParam Long workoutPlanId) {
         WorkoutPlansDTO workoutPlansDTO = workoutPlansService.getWorkoutPlanById(workoutPlanId);

@@ -13,30 +13,7 @@
           rel="stylesheet">
 </head>
 <body>
-<nav class="navbar">
-    <div class="navbar_container">
-        <div class="logo">Shape Synergy</div>
-        <div class="navbar_toggle" id="mobile">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-        <div class="navbar_menu">
-            <ul class="navbar_list">
-                <li class="navbar_item">
-                    <a href="/userWorkoutPlans" class="navbar_link">Your workout plans</a>
-                </li>
-                <li class="navbar_item">
-                    <a href="/exercises" class="navbar_link">Create workout plan</a>
-                </li>
-                <li class="navbar_item">
-                    <span sec:authorize="isAuthenticated">
-                    <a th:href="@{/logout}" class="navbar_link">Logout</a></span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="navbar :: navbar"></div>
 <h2>Welcome, [[${user.getName()}]]</h2>
 <div class="main_container">
 
@@ -71,5 +48,30 @@
         </ul>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.getElementById('mobile');
+        const dropdownMenu = document.querySelector('.dropdown_menu');
+
+        console.log(menuToggle); // Check if menuToggle is selected correctly
+        console.log(dropdownMenu); // Check if dropdownMenu is selected correctly
+
+        menuToggle.addEventListener('click', function() {
+            console.log('Toggle clicked'); // Check if the click event is triggered
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(event) {
+            console.log('Outside click'); // Check if the click event is triggered
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
+
+</script>
 
 </body>
+
+</html>
