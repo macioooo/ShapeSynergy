@@ -2,6 +2,8 @@
 # Shape Synergy 
 Shape synergy is a workout planner application designed to help users create and manage their workout plans effectively.
 
+# THIS IS NOT FINAL VERSION OF THIS APP
+
 *Features*
 Workout Plan Creation: Users can easily create personalized workout plans tailored to their fitness goals.
 
@@ -43,3 +45,13 @@ SweetAlert: `npm install sweetalert2` or install it manually clicking on `<scrip
 Build the Project: `mvn clean install`
 Run the Application: `mvn spring-boot:run`
 Access the Application: Visit `http://localhost:8080` in your web browser.
+
+
+
+VIDEO
+
+https://github.com/macioooo/ShapeSynergy/assets/96475239/81de9c40-56c7-40c2-bcb2-2a44d721cd86
+
+
+
+
