@@ -1,10 +1,7 @@
 package com.shapesynergy.dietworkout.appuser.service;
 
 import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
-import com.shapesynergy.dietworkout.appuser.AppUser;
-import com.shapesynergy.dietworkout.appuser.AppUserDTO;
-import com.shapesynergy.dietworkout.appuser.AppUserRepository;
-import com.shapesynergy.dietworkout.appuser.AppUserRole;
+import com.shapesynergy.dietworkout.appuser.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,10 +52,33 @@ public class AppUserService {
         appUserRepository.save(appUser);
         return "User info updated successfully";
     }
+
+    public AppUserDTO getUserInfo(Long id_user) {
+        AppUser appUser = appUserRepository.findById(id_user).get();
+        AppUserDTO appUserDTO = new AppUserDTO();
+        appUserDTO.setAge(appUser.getAge());
+        appUserDTO.setAppUserGender(appUser.getAppUserGender());
+        appUserDTO.setActivityLevel(appUser.getActivityLevel());
+        appUserDTO.setGoal(appUser.getGoal());
+        appUserDTO.setHeight(appUser.getHeight());
+        appUserDTO.setWeight(appUser.getWeight());
+        appUserDTO.setBmi(appUser.getBmi());
+        appUserDTO.setBmiCategories(appUser.getBmiCategories());
+        return appUserDTO;
+    }
     private void calculateUserBMI(AppUser appUser) {
         double height = appUser.getHeight()/100;
         double weight = appUser.getWeight();
         double bmi = (double) Math.round((weight / (height * height))*100)/100;
+        if (bmi < 18.5) {
+            appUser.setBmiCategories(AppUserBmiCategories.UNDERWEIGHT);
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            appUser.setBmiCategories(AppUserBmiCategories.NORMAL);
+        } else if (bmi >= 25 && bmi < 29.9) {
+            appUser.setBmiCategories(AppUserBmiCategories.OVERWEIGHT);
+        } else if (bmi >= 30) {
+            appUser.setBmiCategories(AppUserBmiCategories.OBESE);
+        }
         appUser.setBmi(bmi);
     }
 

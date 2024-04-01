@@ -63,6 +63,7 @@ public class UserRegistrationTests {
                 null,
                 null,
                 null,
+                null,
                 null
         );
         when(appUserRepository.findByEmail(userDTO.getEmail())).thenReturn(new AppUser());

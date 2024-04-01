@@ -30,6 +30,8 @@ public class CustomAppUserDetails implements UserDetails {
         return user != null ? user.getId_user() : null;
     }
 
+
+
     @Override
     public String getPassword() {
         return user != null ? user.getPassword() : null;

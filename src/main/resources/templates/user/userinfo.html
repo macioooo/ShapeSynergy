@@ -1,49 +1,90 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Information Form</title>
-        <link rel="stylesheet" th:href="@{/css/main.css}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
-    </head>
-    <body>
-    <div th:replace="navbar :: navbar"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/userinfo.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+<div class="container">
+<div class="left-side login_form">
     <form action="/user/info" method="post">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age"><br>
+        <label for="age" class="form_label">Age:</label>
+        <input type="number" id="age" name="age" class="form_input" required><br>
 
-        <label for="gender">Gender:</label>
-        <select id="gender" name="appUserGender">
-            <option value="MALE">Male</option>
-            <option value="FEMALE">Female</option>
+        <label for="gender" class="form_label">Gender:</label>
+        <select id="gender" name="appUserGender" class="form_input">
+            <option value="MALE" class="option_custom">Male</option>
+            <option value="FEMALE" class="option_custom">Female</option>
         </select><br>
 
-        <label for="activity_level">Activity Level:</label>
-        <select id="activity_level" name="activityLevel">
-            <option value="SEDENTARY">Sedentary</option>
-            <option value="LIGHTLY_ACTIVE">Lightly Active</option>
-            <option value="MODERATELY_ACTIVE">Moderately Active</option>
-            <option value="VERY_ACTIVE">Very Active</option>
-            <option value="SUPER_ACTIVE">Super Active</option>
+        <label for="activity_level" class="form_label">Activity Level:</label>
+        <select id="activity_level" name="activityLevel" class="form_input">
+            <option value="SEDENTARY" class="option_custom">Sedentary</option>
+            <option value="LIGHTLY_ACTIVE" class="option_custom">Lightly Active</option>
+            <option value="MODERATELY_ACTIVE" class="option_custom">Moderately Active</option>
+            <option value="VERY_ACTIVE" class="option_custom">Very Active</option>
+            <option value="SUPER_ACTIVE" class="option_custom">Super Active</option>
         </select><br>
-        <label for="goal">Goal:</label>
-        <select id="goal" name="activityLevel">
-            <option value="LOSE_WEIGHT">Lose weight</option>
-            <option value="MAINTAIN_WEIGHT">Maintain Weight</option>
-            <option value="GAIN_WEIGHT">Gain Weight</option>
+        <label for="goal" class="form_label">Goal:</label>
+        <select id="goal" name="goal" class="form_input">
+            <option value="LOSE_WEIGHT" class="option_custom">Lose weight</option>
+            <option value="MAINTAIN_WEIGHT" class="option_custom">Maintain Weight</option>
+            <option value="GAIN_WEIGHT" class="option_custom">Gain Weight</option>
         </select><br>
 
-        <label for="height">Height (cm):</label>
-        <input type="number" id="height" name="height"><br>
+        <label for="height" class="form_label">Height (cm):</label>
+        <input type="number" id="height" name="height" class="form_input" required><br>
 
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" name="weight"><br>
+        <label for="weight" class="form_label">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" class="form_input" required><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" class="form_button">
     </form>
-    </body>
-    </html>
+</div>
+<div class="right-side">
+    <h2>User Current Stats: </h2>
+    <p>User Age: [[${user.getAge()}]]</p>
+    <p>User Activity level: [[${user.getFormattedActivityLevel()}]]</p>
+    <p>User Goal: [[${user.getFormattedGoal()}]]</p>
+    <p>User Weight: [[${user.getWeight()}]]</p>
+    <p>User Height: [[${user.getHeight()}]]</p>
+    <p>User BMI: [[${user.getBmi()}]]. Your BMI indicates: <b><span id="colorOfTheBMI">[[${user.getFormattedBmiCategories()}]]</span></b></p>
+    <p>User Calories/day: </p>
+</div>
+</div>
+<script>
+    var bmiCategoryElement = document.getElementById("colorOfTheBMI");
+    function changeColorBasedOnBMI(bmiCategory) {
+        switch (bmiCategory) {
+            case "underweight":
+                bmiCategoryElement.style.color = "blue";
+                break;
+            case "normal":
+                bmiCategoryElement.style.color = "green";
+                break;
+            case "overweight":
+                bmiCategoryElement.style.color = "orange";
+                break;
+            case "obese":
+                bmiCategoryElement.style.color = "red";
+                break;
+            default:
+                bmiCategoryElement.style.color = "black";
+                break;
+        }
+    }
+
+    // Call the function to change color based on BMI category
+    changeColorBasedOnBMI(bmiCategoryElement.textContent.trim());
+</script>
+</body>
+</html>

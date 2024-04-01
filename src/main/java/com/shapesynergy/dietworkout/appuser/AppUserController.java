@@ -84,7 +84,9 @@ public class AppUserController {
     }
 
     @GetMapping("/user/info")
-    public String getUserInfoPage() {
+    public String getUserInfoPage(Model model, @AuthenticationPrincipal CustomAppUserDetails userDetails) {
+        AppUserDTO appUser = appUserService.getUserInfo(userDetails.getId());
+        model.addAttribute("user", appUser);
         return "user/userinfo";
     }
 

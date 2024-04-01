@@ -2,10 +2,12 @@ package com.shapesynergy.dietworkout.appuser;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class AppUserDTO {
     private String name;
@@ -24,7 +26,26 @@ public class AppUserDTO {
     private AppUserActivityLevel activityLevel;
     private AppUserGoal goal;
     private Double bmi;
+    private AppUserBmiCategories bmiCategories;
 
 
+    public String getFormattedActivityLevel() {
+        if (activityLevel == null) {
+            return "";
+        }
+        return activityLevel.name().toLowerCase().replace("_", " ");
+    }
+    public String getFormattedGoal() {
+        if (goal == null) {
+            return "";
+        }
+        return goal.name().toLowerCase().replace("_", " ");
+    }
+    public String getFormattedBmiCategories() {
+        if (bmiCategories == null) {
+            return "";
+        }
+        return bmiCategories.name().toLowerCase();
+    }
 
 }

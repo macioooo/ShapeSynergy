@@ -1,31 +1,37 @@
 <!-- navbar.html -->
 <div th:fragment="navbar">
-<nav class="navbar">
-    <div class="navbar_container">
-        <div class="logo">Shape Synergy</div>
-        <div class="navbar_toggle" id="mobile">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <div class="logo">Shape Synergy</div>
+            <div class="navbar_toggle" id="mobile">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="navbar_menu">
+                <ul class="navbar_list">
+                    <li class="navbar_item">
+                        <a href="/user" class="navbar_link">Home</a>
+                    </li>
+                    <li class="navbar_item">
+                        <a href="#" class="navbar_link">Workout ⬇</i></a>
+                        <div class="dropdown_menu">
+                            <ul>
+                                <li><a href="/user/workoutplans" class="navbar_link">Your workout plans</a></li>
+                                <li><a href="/user/exercises" class="navbar_link">Create workout plan</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="navbar_item">
+                        <a href="/user/info" class="navbar_link">User Info</a>
+                    </li>
+                    <li class="navbar_item">
+                        <span sec:authorize="isAuthenticated">
+                            <a th:href="@{/logout}" class="navbar_link">Logout</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="navbar_menu">
-            <ul class="navbar_list">
-                <li class="navbar_item">
-                    <a href="/user/workoutplans" class="navbar_link">Your workout plans</a>
-                </li>
-                <li class="navbar_item">
-                    <a href="/user/exercises" class="navbar_link">Create workout plan</a>
-                </li>
-                <li class="navbar_item">
-                    <a href="/user/info" class="navbar_link">⚙️</a>
-                </li>
-                <li class="navbar_item">
-                    <span sec:authorize="isAuthenticated">
-                        <a th:href="@{/logout}" class="navbar_link">Logout</a>
-                    </span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+    </nav>
 </div>
