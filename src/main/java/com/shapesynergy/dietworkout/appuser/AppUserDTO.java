@@ -27,6 +27,10 @@ public class AppUserDTO {
     private AppUserGoal goal;
     private Double bmi;
     private AppUserBmiCategories bmiCategories;
+    private Integer userCalories;
+    private Integer userProtein;
+    private Integer userCarbs;
+    private Integer userFat;
 
 
     public String getFormattedActivityLevel() {

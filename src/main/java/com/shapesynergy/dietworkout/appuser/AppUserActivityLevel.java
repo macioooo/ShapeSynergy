@@ -1,6 +1,7 @@
 package com.shapesynergy.dietworkout.appuser;
 
 public enum AppUserActivityLevel {
+
     SEDENTARY(1.2),
     LIGHTLY_ACTIVE(1.375),
     MODERATELY_ACTIVE(1.55),

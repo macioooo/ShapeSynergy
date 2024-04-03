@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,7 +49,13 @@ public class AppUserService {
         appUser.setGoal(appUserDTO.getGoal());
         appUser.setHeight(appUserDTO.getHeight());
         appUser.setWeight(appUserDTO.getWeight());
-        calculateUserBMI(appUser);
+        appUser.setBmi(calculateUserBMI(appUserDTO));
+        appUser.setBmiCategories(calculateUserBmiCategory(appUser.getBmi()));
+        appUser.setUserCalories(calculateUserCalories(appUser));
+        ArrayList<Integer> macro = calculateUserMacros(appUser.getUserCalories());
+        appUser.setUserProtein(macro.get(0));
+        appUser.setUserCarbs(macro.get(1));
+        appUser.setUserFat(macro.get(2));
         appUserRepository.save(appUser);
         return "User info updated successfully";
     }
@@ -64,22 +71,61 @@ public class AppUserService {
         appUserDTO.setWeight(appUser.getWeight());
         appUserDTO.setBmi(appUser.getBmi());
         appUserDTO.setBmiCategories(appUser.getBmiCategories());
+        appUserDTO.setUserCalories(appUser.getUserCalories());
+        appUserDTO.setUserProtein(appUser.getUserProtein());
+        appUserDTO.setUserCarbs(appUser.getUserCarbs());
+        appUserDTO.setUserFat(appUser.getUserFat());
         return appUserDTO;
     }
-    private void calculateUserBMI(AppUser appUser) {
-        double height = appUser.getHeight()/100;
+
+    private double calculateUserBMI(AppUserDTO appUser) {
+        double height = appUser.getHeight() / 100;
         double weight = appUser.getWeight();
-        double bmi = (double) Math.round((weight / (height * height))*100)/100;
+        double bmi = (double) Math.round((weight / (height * height)) * 100) / 100;
+        return bmi;
+    }
+
+    private AppUserBmiCategories calculateUserBmiCategory(double bmi) {
         if (bmi < 18.5) {
-            appUser.setBmiCategories(AppUserBmiCategories.UNDERWEIGHT);
+            return AppUserBmiCategories.UNDERWEIGHT;
         } else if (bmi >= 18.5 && bmi < 24.9) {
-            appUser.setBmiCategories(AppUserBmiCategories.NORMAL);
+            return AppUserBmiCategories.NORMAL;
         } else if (bmi >= 25 && bmi < 29.9) {
-            appUser.setBmiCategories(AppUserBmiCategories.OVERWEIGHT);
-        } else if (bmi >= 30) {
-            appUser.setBmiCategories(AppUserBmiCategories.OBESE);
+            return AppUserBmiCategories.OVERWEIGHT;
         }
-        appUser.setBmi(bmi);
+        return AppUserBmiCategories.OBESE;
+    }
+
+
+    private int calculateUserCalories(AppUser appUser) {
+        double height = appUser.getHeight();
+        double weight = appUser.getWeight();
+        int age = appUser.getAge();
+        AppUserGender gender = appUser.getAppUserGender();
+        AppUserActivityLevel activityLevel = appUser.getActivityLevel();
+        AppUserGoal goal = appUser.getGoal();
+        int bmr = (int) ((10 * weight) + (6.25 * height) - (5 * age));
+        if (gender.equals(AppUserGender.MALE)) {
+            bmr += 5;
+        } else {
+            bmr -= 161;
+        }
+        double activityValue = activityLevel.getActivityLevel();
+        double goalValue = goal.getGoal();
+        int calories = (int) ((int) (bmr * activityValue) + goalValue);
+
+        return calories;
+    }
+
+    private ArrayList<Integer> calculateUserMacros(int calories) {
+        ArrayList<Integer> macro = new ArrayList<>();
+        int protein = (int) ((calories * 0.35) / 4); // 1 gram of protein has 4 kcals and should be around 35% of daily calories
+        int carbs = (int) ((calories * 0.45) / 4);
+        int fat = (int) ((calories * 0.20) / 9);
+        macro.add(protein);
+        macro.add(carbs);
+        macro.add(fat);
+        return macro;
     }
 
 }

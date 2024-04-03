@@ -45,6 +45,10 @@ public class AppUser {
     private Double bmi;
     @Enumerated(EnumType.STRING)
     private AppUserBmiCategories bmiCategories;
+    private Integer userCalories;
+    private Integer userProtein;
+    private Integer userCarbs;
+    private Integer userFat;
 
     //Spring security
     @Enumerated(EnumType.STRING)
@@ -53,7 +57,8 @@ public class AppUser {
     public AppUser(String name, String email, String password,
                    AppUserGender appUserGender, Double height, Double weight, Integer age,
                    AppUserActivityLevel activityLevel, AppUserGoal goal, Double bmi, AppUserRole appUserRole,
-                   AppUserBmiCategories bmiCategories) {
+                   AppUserBmiCategories bmiCategories,
+                   Integer userCalories, Integer userProtein, Integer userCarbs, Integer userFat) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -66,6 +71,10 @@ public class AppUser {
         this.bmi = bmi;
         this.appUserRole = appUserRole;
         this.bmiCategories = bmiCategories;
+        this.userCalories = userCalories;
+        this.userProtein = userProtein;
+        this.userCarbs = userCarbs;
+        this.userFat = userFat;
     }
 
     //Constructor needed for registration

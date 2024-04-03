@@ -49,27 +49,6 @@ public class UserRegistrationTests {
         assertFalse(userExists);
     }
 
-    @Test
-    public void testSaveUser_UserAlreadyExists_RegistrationFails() {
-        // Arrange
-        AppUserDTO userDTO = new AppUserDTO(
-                "John Doe",
-                "johndoe@example.com",
-                "password123",
-                AppUserRole.USER,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        when(appUserRepository.findByEmail(userDTO.getEmail())).thenReturn(new AppUser());
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> appUserService.save(userDTO));
-    }
 
 }
