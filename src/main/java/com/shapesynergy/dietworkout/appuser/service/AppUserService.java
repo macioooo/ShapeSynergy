@@ -119,9 +119,9 @@ public class AppUserService {
 
     private ArrayList<Integer> calculateUserMacros(int calories) {
         ArrayList<Integer> macro = new ArrayList<>();
-        int protein = (int) ((calories * 0.35) / 4); // 1 gram of protein has 4 kcals and should be around 35% of daily calories
-        int carbs = (int) ((calories * 0.45) / 4);
-        int fat = (int) ((calories * 0.20) / 9);
+        int protein = (int) ((calories * 0.25) / 4);
+        int carbs = (int) ((calories * 0.5) / 4); // 1 gram of carbs has 4 kcals and should be around 50% of daily calories
+        int fat = (int) ((calories * 0.25) / 9);
         macro.add(protein);
         macro.add(carbs);
         macro.add(fat);
