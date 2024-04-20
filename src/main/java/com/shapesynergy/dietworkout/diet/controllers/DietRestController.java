@@ -16,14 +16,9 @@ public class DietRestController {
     private final DietService dietService;
 
     @PostMapping("/search")
-    public ResponseEntity<Food> searchFoodByName() throws Exception {
-        ResponseEntity<String> response = dietService.searchFoods();
-        Food food = convertResponseToFood(response.getBody());
-        return ResponseEntity.ok(food);
+    public ResponseEntity<String> searchFoodByName() throws Exception {
+        ResponseEntity<String> response = dietService.searchFood();
+        return response;
     }
 
-    private Food convertResponseToFood(String responseBody) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(responseBody, Food.class);
-    }
 }
