@@ -24,7 +24,6 @@ public class DietService {
         // Construct OAuth authorization header
         //String authorizationHeader =
 
-        // Construct the URL with the necessary parameters
         String url = BASE_URL + "?method=foods.search"
                 + "&search_expression=corn"
                 + "&format=json"
@@ -41,16 +40,13 @@ public class DietService {
                 .withParameter("oauth_consumer_key", CONSUMER_KEY)
                 .build());
 
-        // Create an HTTP entity with headers
+
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        // Create a RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
 
-        // Make the HTTP request
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        // Return the response
         return response;
     }
 }
