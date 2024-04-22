@@ -16,8 +16,8 @@ public class DietRestController {
     private final DietService dietService;
 
     @PostMapping("/search")
-    public ResponseEntity<String> searchFoodByName() throws Exception {
-        ResponseEntity<String> response = dietService.searchFood();
+    public ResponseEntity<String> searchFoodByName(@RequestParam String food) throws Exception {
+        ResponseEntity<String> response = dietService.searchFood(food);
         return response;
     }
 

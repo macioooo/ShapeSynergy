@@ -1,142 +1,128 @@
 package com.shapesynergy.dietworkout.diet.service;
 
-import org.springframework.stereotype.Service;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
-@Service
 public class DietAuthentication {
-    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+        private final String APP_KEY;
+        private final String APP_SECRET;
+        final static private String APP_URL = "https://platform.fatsecret.com/rest/server.api";
+        final static private String APP_SIGNATURE_METHOD = "HmacSHA1";
+        private static String HTTP_METHOD = "POST";
+        public DietAuthentication(String APP_KEY, String APP_SECRET) {
+            this.APP_KEY = APP_KEY;
+            this.APP_SECRET = APP_SECRET;
+
+        }
+        public String nonce() {
+            Random r = new Random();
+            StringBuffer n = new StringBuffer();
+            for (int i = 0; i < r.nextInt(8) + 2; i++) {
+                n.append(r.nextInt(26) + 'a');
+            }
+            return n.toString();
+        }
+
+        public String[] generateOauthParams() {
+            String[] a = {
+                    "oauth_consumer_key=" + APP_KEY,
+                    "oauth_signature_method=HMAC-SHA1",
+                    "oauth_timestamp=" +  new Long(System.currentTimeMillis() / 1000).toString(),
+                    "oauth_nonce=" + nonce(),
+                    "oauth_version=1.0",
+                    "format=json"
+            };
+            return a;
+        }
 
 
-    private static final Set<Character> UnreservedChars = new HashSet<>(Arrays.asList(
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '-', '_', '.', '~'));
+        public String join(String[] params, String separator) {
+            StringBuffer b = new StringBuffer();
+            for (int i = 0; i < params.length; i++) {
+                if (i > 0) {
+                    b.append(separator);
+                }
+                b.append(params[i]);
+            }
+            return b.toString();
+        }
 
-    public String consumerSecret;
 
-    public String method;
+        public String paramify(String[] params) {
+            String[] p = Arrays.copyOf(params, params.length);
+            Arrays.sort(p);
+            return join(p, "&");
+        }
 
-    public String parameterString;
+        public String encode(String url) {
+            if (url == null)
+                return "";
 
-    public Map<String, String> parameters = new LinkedHashMap<>();
-
-    public String signature;
-
-    public String signatureBaseString;
-
-    public String signingKey;
-
-    public String tokenSecret;
-
-    public String url;
-
-    public static String encodeURIComponent(String s) {
-        StringBuilder o = new StringBuilder();
-        for (byte b : s.getBytes(StandardCharsets.UTF_8)) {
-            if (isSafe(b)) {
-                o.append((char) b);
-            } else {
-                o.append('%');
-                o.append(HEX[((b & 0xF0) >> 4)]);
-                o.append(HEX[((b & 0x0F))]);
+            try {
+                return URLEncoder.encode(url, "utf-8")
+                        .replace("+", "%20")
+                        .replace("!", "%21")
+                        .replace("*", "%2A")
+                        .replace("\\", "%27")
+                        .replace("(", "%28")
+                        .replace(")", "%29");
+            }
+            catch (UnsupportedEncodingException wow) {
+                throw new RuntimeException(wow.getMessage(), wow);
             }
         }
-        return o.toString();
-    }
 
-    private static boolean isSafe(byte b) {
-        return UnreservedChars.contains((char) b);
-    }
-    private String generateNonce() {
-        byte[] nonceBytes = new byte[16]; // Adjust the length as needed
-        new SecureRandom().nextBytes(nonceBytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(nonceBytes);
-    }
+        public String sign(String method, String uri, String[] params) throws UnsupportedEncodingException {
+            try {
+                String encodedURI = encode(uri);
+                String encodedParams = encode(paramify(params));
 
-    public String build() {
-        // For testing purposes, only add the timestamp if it has not yet been added
-        if (!parameters.containsKey("oauth_timestamp")) {
-            parameters.put("oauth_timestamp", "" + Instant.now().getEpochSecond());
+                String[] p = {method, encodedURI, encodedParams};
+
+                String text = join(p, "&");
+                String key = APP_SECRET + "&";
+                SecretKeySpec sk = new SecretKeySpec(key.getBytes(), APP_SIGNATURE_METHOD);
+                Mac m = Mac.getInstance(APP_SIGNATURE_METHOD);
+                m.init(sk);
+                byte[] signatureBytes = m.doFinal(text.getBytes());
+
+                return Base64.getEncoder().encodeToString(signatureBytes);
+            } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
-        // Boiler plate parameters
-        //parameters.put("oauth_signature_method", "HMAC-SHA1");
-        parameters.put("oauth_version", "1.0");
-        parameters.put("oauth_nonce", generateNonce());
+        public String buildFoodsSearchUrl(String query, int pageNumber) throws Exception {
+            List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
+            String[] template = new String[1];
+            params.add("method=foods.search");
+            params.add("max_results=50");
+            params.add("page_number=" + pageNumber);
+            params.add("search_expression=" + encode(query));
+            params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
 
-        // Build the parameter string after sorting the keys in lexicographic order per the OAuth v1 spec.
-        parameterString = parameters.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(e -> encodeURIComponent(e.getKey()) + "=" + encodeURIComponent(e.getValue()))
-                .collect(Collectors.joining("&"));
-
-        // Build the signature base string
-        signatureBaseString = method.toUpperCase() + "&" + encodeURIComponent(url) + "&" + encodeURIComponent(parameterString);
-
-        // If the signing key was not provided, build it by encoding the consumer secret + the token secret
-        if (signingKey == null) {
-            signingKey = encodeURIComponent(consumerSecret) + "&" + (tokenSecret == null ? "" : encodeURIComponent(tokenSecret));
+            return APP_URL + "?" + paramify(params.toArray(template));
         }
 
-        // Sign the Signature Base String
-        signature = generateSignature(signingKey, signatureBaseString);
+        public String buildRecipesSearchUrl(String query, int pageNumber) throws Exception {
+            List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
+            String[] template = new String[1];
+            params.add("method=recipes.search");
+            params.add("max_results=50");
+            params.add("page_number=" + pageNumber);
+            params.add("search_expression=" + encode(query));
+            params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
 
-        // Add the signature to be included in the header
-        parameters.put("oauth_signature", signature);
-
-        // Build the authorization header value using the order in which the parameters were added
-        return "OAuth " + parameters.entrySet().stream()
-                .map(e -> encodeURIComponent(e.getKey()) + "=\"" + encodeURIComponent(e.getValue()) + "\"")
-                .collect(Collectors.joining(", "));
-    }
-
-    public String generateSignature(String secret, String message) {
-        try {
-            byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
-            Mac mac = Mac.getInstance("HmacSHA1");
-            mac.init(new SecretKeySpec(bytes, "HmacSHA1"));
-            byte[] result = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(result);
-        } catch (InvalidKeyException | NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            return APP_URL + "?" + paramify(params.toArray(template));
         }
+
     }
 
-
-    public DietAuthentication withConsumerSecret(String consumerSecret) {
-        this.consumerSecret = consumerSecret;
-        return this;
-    }
-
-    public DietAuthentication withMethod(String method) {
-        this.method = method;
-        return this;
-    }
-
-
-    public DietAuthentication withParameter(String name, String value) {
-        parameters.put(name, value);
-        return this;
-    }
-
-
-
-
-    public DietAuthentication withURL(String url) {
-        this.url = url;
-        return this;
-    }
-
-}
