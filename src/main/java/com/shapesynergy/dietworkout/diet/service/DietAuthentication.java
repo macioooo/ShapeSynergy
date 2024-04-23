@@ -21,7 +21,7 @@ public class DietAuthentication {
             this.APP_SECRET = APP_SECRET;
 
         }
-        public String nonce() {
+        private String nonce() {
             Random r = new Random();
             StringBuffer n = new StringBuffer();
             for (int i = 0; i < r.nextInt(8) + 2; i++) {
@@ -43,7 +43,7 @@ public class DietAuthentication {
         }
 
 
-        public String join(String[] params, String separator) {
+        private String join(String[] params, String separator) {
             StringBuffer b = new StringBuffer();
             for (int i = 0; i < params.length; i++) {
                 if (i > 0) {
@@ -100,29 +100,7 @@ public class DietAuthentication {
             }
         }
 
-        public String buildFoodsSearchUrl(String query, int pageNumber) throws Exception {
-            List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-            String[] template = new String[1];
-            params.add("method=foods.search");
-            params.add("max_results=50");
-            params.add("page_number=" + pageNumber);
-            params.add("search_expression=" + encode(query));
-            params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
 
-            return APP_URL + "?" + paramify(params.toArray(template));
-        }
-
-        public String buildRecipesSearchUrl(String query, int pageNumber) throws Exception {
-            List<String> params = new ArrayList<String>(Arrays.asList(generateOauthParams()));
-            String[] template = new String[1];
-            params.add("method=recipes.search");
-            params.add("max_results=50");
-            params.add("page_number=" + pageNumber);
-            params.add("search_expression=" + encode(query));
-            params.add("oauth_signature=" + sign(HTTP_METHOD, APP_URL, params.toArray(template)));
-
-            return APP_URL + "?" + paramify(params.toArray(template));
-        }
 
     }
 
