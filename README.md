@@ -46,7 +46,8 @@ Build the Project: `mvn clean install`
 Run the Application: `mvn spring-boot:run`
 Access the Application: Visit `http://localhost:8080` in your web browser.
 
-
+#UPDATE 7.07.2024
+NinjaApi changed their politics and now pagination in premium function for their api, so if you dont have premium api key, next exercises button won't work!
 
 VIDEO
 
