@@ -1,4 +1,4 @@
-package com.shapesynergy.dietworkout.WorkoutPlans;
+package com.shapesynergy.dietworkout.workoutPlans;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

@@ -1,4 +1,4 @@
-package com.shapesynergy.dietworkout.WorkoutPlans;
+package com.shapesynergy.dietworkout.workoutPlans;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.shapesynergy.dietworkout.appuser;
 
-import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
+import com.shapesynergy.dietworkout.workoutPlans.*;
 import com.shapesynergy.dietworkout.appuser.service.AppUserService;
 import com.shapesynergy.dietworkout.appuser.service.CustomAppUserDetails;
 import lombok.RequiredArgsConstructor;

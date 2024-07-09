@@ -1,4 +1,4 @@
-    package com.shapesynergy.dietworkout.WorkoutPlans;
+    package com.shapesynergy.dietworkout.workoutPlans;
 
     import com.shapesynergy.dietworkout.appuser.AppUser;
     import jakarta.persistence.*;

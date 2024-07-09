@@ -1,4 +1,4 @@
-package com.shapesynergy.dietworkout.WorkoutPlans;
+package com.shapesynergy.dietworkout.workoutPlans;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
         produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class WorkoutPlansController {
+
     private final WorkoutPlansService workoutPlansService;
     private final AppUserRepository appUserRepository;
 

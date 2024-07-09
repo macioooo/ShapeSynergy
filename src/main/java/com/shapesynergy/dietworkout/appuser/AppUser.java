@@ -1,6 +1,6 @@
 package com.shapesynergy.dietworkout.appuser;
 
-import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
+import com.shapesynergy.dietworkout.workoutPlans.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,10 +45,13 @@ public class AppUser {
     private Double bmi;
     @Enumerated(EnumType.STRING)
     private AppUserBmiCategories bmiCategories;
+
+    //Calories and macros user need to eat
     private Integer userCalories;
     private Integer userProtein;
     private Integer userCarbs;
     private Integer userFat;
+
 
     //Spring security
     @Enumerated(EnumType.STRING)

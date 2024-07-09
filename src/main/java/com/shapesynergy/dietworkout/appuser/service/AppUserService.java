@@ -1,7 +1,7 @@
 package com.shapesynergy.dietworkout.appuser.service;
 
-import com.shapesynergy.dietworkout.WorkoutPlans.WorkoutPlans;
 import com.shapesynergy.dietworkout.appuser.*;
+import com.shapesynergy.dietworkout.workoutPlans.WorkoutPlans;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
