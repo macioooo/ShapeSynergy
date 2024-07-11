@@ -1,6 +1,8 @@
 package com.shapesynergy.dietworkout.appuser.service;
 
 import com.shapesynergy.dietworkout.appuser.*;
+import com.shapesynergy.dietworkout.diet.DietDTO;
+import com.shapesynergy.dietworkout.diet.model.Food;
 import com.shapesynergy.dietworkout.workoutPlans.WorkoutPlans;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,4 +130,22 @@ public class AppUserService {
         return macro;
     }
 
+//Adding a dish that user ate
+    public void addUserDish(AppUserDTO appUser, Food dish) {
+        appUser.setUserCaloriesEaten((int) (appUser.getUserCaloriesEaten() + dish.getCalories()));
+        appUser.setUserProteinEaten((int) (appUser.getUserProteinEaten() + dish.getProtein()));
+        appUser.setUserCarbsEaten((int) (appUser.getUserCarbsEaten() + dish.getCarbs()));
+        appUser.setUserFatEaten((int) (appUser.getUserFatEaten() + dish.getFat()));
+    }
+
+    public void resetAllUserCalories() {
+        List<AppUser> users = appUserRepository.findAll();
+        for (AppUser user : users) {
+            user.setUserCaloriesEaten(0);
+            user.setUserProteinEaten(0);
+            user.setUserCarbsEaten(0);
+            user.setUserFatEaten(0);
+            appUserRepository.save(user);
+        }
+    }
 }

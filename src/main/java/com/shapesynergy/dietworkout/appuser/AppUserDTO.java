@@ -1,5 +1,6 @@
 package com.shapesynergy.dietworkout.appuser;
 
+import com.shapesynergy.dietworkout.diet.model.Foods;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,10 +32,13 @@ public class AppUserDTO {
     private Integer userProtein;
     private Integer userCarbs;
     private Integer userFat;
-    private Integer userCaloriesEaten;
-    private Integer userProteinEaten;
-    private Integer userCarbsEaten;
-    private Integer userFatEaten;
+    private Integer userCaloriesEaten = 0;
+    private Integer userProteinEaten = 0;
+    private Integer userCarbsEaten = 0;
+    private Integer userFatEaten = 0;
+
+
+
 
 
     public String getFormattedActivityLevel() {
@@ -55,5 +59,6 @@ public class AppUserDTO {
         }
         return bmiCategories.name().toLowerCase();
     }
+
 
 }

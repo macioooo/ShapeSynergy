@@ -52,6 +52,12 @@ public class AppUser {
     private Integer userCarbs;
     private Integer userFat;
 
+    //Calories and macros user ate
+    private Integer userCaloriesEaten = 0;
+    private Integer userProteinEaten = 0;
+    private Integer userCarbsEaten = 0;
+    private Integer userFatEaten = 0;
+
 
     //Spring security
     @Enumerated(EnumType.STRING)
@@ -61,7 +67,8 @@ public class AppUser {
                    AppUserGender appUserGender, Double height, Double weight, Integer age,
                    AppUserActivityLevel activityLevel, AppUserGoal goal, Double bmi, AppUserRole appUserRole,
                    AppUserBmiCategories bmiCategories,
-                   Integer userCalories, Integer userProtein, Integer userCarbs, Integer userFat) {
+                   Integer userCalories, Integer userProtein, Integer userCarbs, Integer userFat)
+    {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -78,6 +85,7 @@ public class AppUser {
         this.userProtein = userProtein;
         this.userCarbs = userCarbs;
         this.userFat = userFat;
+
     }
 
     //Constructor needed for registration
